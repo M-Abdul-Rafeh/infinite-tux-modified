@@ -1,17 +1,17 @@
 #!/bin/bash
-if [ -d "infinitetux" ]; then
-    rm -rf infinitetux
+if [ -d "leveleditor" ]; then
+    rm -rf leveleditor
 fi
 
 if [ -d "dist" ]; then
     rm -rf dist
 fi   
 
-mkdir infinitetux
+mkdir leveleditor
 mkdir dist
 
 javac -source 1.6 -target 1.6 -d \
-./infinitetux ./src/main/java/com/mojang/mario/*.java \
+./leveleditor ./src/main/java/com/mojang/mario/*.java \
 ./src/main/java/com/mojang/mario/level/*.java \
 ./src/main/java/com/mojang/mario/mapedit/*.java \
 ./src/main/java/com/mojang/mario/sprites/*.java \
@@ -19,23 +19,23 @@ javac -source 1.6 -target 1.6 -d \
 ./src/main/java/com/mojang/sonar/mixer/*.java \
 ./src/main/java/com/mojang/sonar/sample/*.java
 
-cp -R ./src/main/resources/* ./infinitetux
-cp copyright_bsd_3_clause.txt ./infinitetux
-cp copyright ./infinitetux
+cp -R ./src/main/resources/* ./leveleditor
+cp copyright_bsd_3_clause.txt ./leveleditor
+cp copyright ./leveleditor
 
-jar cfm infinitetux.jar manifest.txt -C ./infinitetux .
-mv infinitetux.jar ./dist
-#rm -rf infinitetux
+jar cfm leveleditor.jar manifest.txt -C ./leveleditor .
+mv leveleditor.jar ./dist
+#rm -rf leveleditor
 
-echo "#!/bin/bash" > ./dist/infinitetux
-echo 'MAINCLASS="com.mojang.mario.FrameLauncher"' >> ./dist/infinitetux
-echo 'OPTION=$1"s"' >> ./dist/infinitetux
-echo 'if [ "$OPTION" == "fs" ]; then' >> ./dist/infinitetux
-echo     'MAINCLASS="com.mojang.mario.FullScreenFrameLauncher"' >> ./dist/infinitetux
-echo 'fi' >> ./dist/infinitetux
-echo 'java -cp .:infinitetux.jar $MAINCLASS' >> ./dist/infinitetux
-chmod +x ./dist/infinitetux
-chmod +x ./dist/infinitetux.jar
+echo "#!/bin/bash" > ./dist/leveleditor
+echo 'MAINCLASS="com.mojang.mario.mapedit.NewLevelEditor"' >> ./dist/leveleditor
+echo 'OPTION=$1"s"' >> ./dist/leveleditor
+echo 'if [ "$OPTION" == "fs" ]; then' >> ./dist/leveleditor
+echo     'MAINCLASS="com.mojang.mario.mapedit.NewLevelEditor"' >> ./dist/leveleditor
+echo 'fi' >> ./dist/leveleditor
+echo 'java -cp .:leveleditor.jar $MAINCLASS' >> ./dist/leveleditor
+chmod +x ./dist/leveleditor
+chmod +x ./dist/leveleditor.jar
 
 
 

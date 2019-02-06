@@ -1,6 +1,6 @@
 #!/bin/bash
 make clean
 make
-cd infinitetux
+cd leveleditor
 java com.mojang.mario.mapedit.LevelEditor
 cd ..

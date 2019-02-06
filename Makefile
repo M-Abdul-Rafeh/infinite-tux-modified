@@ -14,10 +14,10 @@ STARTDIRI      = $(STARTDIR)
 ICONDIRI       = $(ICONDIR)
 ##############Program specific info.####################################
 CP             = .
-JPACKAGE       = infinitetux
-MAIN           = com.mojang.mario.FrameLauncher
+JPACKAGE       = leveleditor
+MAIN           = com.mojang.mario.mapedit.NewLevelEditor
 SOURCEDIR      = src/main/java/com/mojang
-FILENAME       = infinitetux.jar
+FILENAME       = leveleditor.jar
 SOURCEFILES    = $(SOURCEDIR)/sonar/SoundListener.java \
                  $(SOURCEDIR)/sonar/SoundSource.java \
                  $(SOURCEDIR)/sonar/SonarSoundEngine.java \
@@ -45,6 +45,7 @@ SOURCEFILES    = $(SOURCEDIR)/sonar/SoundListener.java \
                  $(SOURCEDIR)/mario/sprites/CoinAnim.java \
                  $(SOURCEDIR)/mario/sprites/Shell.java \
                  $(SOURCEDIR)/mario/sprites/Mushroom.java \
+                 $(SOURCEDIR)/mario/sprites/OneUp.java \
                  $(SOURCEDIR)/mario/AppletLauncher.java \
                  $(SOURCEDIR)/mario/TitleScene.java \
                  $(SOURCEDIR)/mario/WinScene.java \
@@ -65,6 +66,9 @@ SOURCEFILES    = $(SOURCEDIR)/sonar/SoundListener.java \
                  $(SOURCEDIR)/mario/mapedit/LevelEditView.java \
                  $(SOURCEDIR)/mario/mapedit/TilePicker.java \
                  $(SOURCEDIR)/mario/mapedit/LevelEditor.java \
+                 $(SOURCEDIR)/mario/mapedit/NewLevelEditView.java \
+                 $(SOURCEDIR)/mario/mapedit/NewTilePicker.java \
+                 $(SOURCEDIR)/mario/mapedit/NewLevelEditor.java \
                  $(SOURCEDIR)/mario/LevelRenderer.java \
                  $(SOURCEDIR)/mario/LoseScene.java
              
@@ -74,8 +78,8 @@ JRT            = java
 JAR            = jar
 JCFLAGS        = -source 1.6 -target 1.6 -d ./$(JPACKAGE)
 ##############Desktop file fields#######################################
-TITLE          = "Infinite Tux."
-COMMENT        = "Infinite Tux."
+TITLE          = "Infinite Tux Level Editor"
+COMMENT        = "Infinite Tux Level Editor"
 CATEGORIES     = "Game"
 ##############control file##############################################
 # Source section
@@ -89,11 +93,11 @@ BUILDDEPENDS   = "gzip (>=1.5), debhelper (>=9), default-jre | \
 java8-runtime"
 
 # Package section
-DESCRIPTION    = " Slightly more compatible version of Infinite Mario."
-EXTDESCRIPTION = " Java based Mario Bros. clone that has had the artwork changed \
-with open source files. Tux is the main character instead of Mario"
+DESCRIPTION    = " A level creator and editor for infinte tux."
+EXTDESCRIPTION = " A level creator and editor for infinte tux. \
+using infinite tux as a base."
 ARCH           = "all"
-HOMEPAGE       = "https://github.com/qbancoffee/infinite-tux"
+HOMEPAGE       = "https://github.com/qbancoffee/infinite-tux-level-editor"
 DEPENDS        = "\$${misc:Depends}, jarwrapper, default-jre | \
 java7-runtime"
 ##############MISC######################################################
@@ -150,7 +154,7 @@ install:
 	echo 'MAINCLASS="$(MAIN)"' >> $(STARTDIR)/$(JPACKAGE)
 	echo 'OPTION=$$1"s"' >> $(STARTDIR)/$(JPACKAGE)
 	echo 'if [ "$$OPTION" == "fs" ]; then' >> $(STARTDIR)/$(JPACKAGE)
-	echo     'MAINCLASS="com.mojang.mario.FullScreenFrameLauncher"' >> $(STARTDIR)/$(JPACKAGE)
+	echo     'MAINCLASS="com.mojang.mario.mapedit.NewLevelEditor"' >> $(STARTDIR)/$(JPACKAGE)
 	echo 'fi' >> $(STARTDIR)/$(JPACKAGE)
 	echo 'java -cp $(CP):$(PREFIXI)/$(JPACKAGE)/$(FILENAME) $$MAINCLASS' >> $(STARTDIR)/$(JPACKAGE)
 	chmod +x $(STARTDIR)/$(JPACKAGE)
@@ -224,7 +228,7 @@ makescript:
 	echo 'MAINCLASS="$(MAIN)"' >> ./dist/$(JPACKAGE)
 	echo 'OPTION=$$1"s"' >> ./dist/$(JPACKAGE)
 	echo 'if [ "$$OPTION" == "fs" ]; then' >> ./dist/$(JPACKAGE)
-	echo     'MAINCLASS="com.mojang.mario.FullScreenFrameLauncher"' >> ./dist/$(JPACKAGE)
+	echo     'MAINCLASS="com.mojang.mario.mapedit.NewLevelEditor"' >> ./dist/$(JPACKAGE)
 	echo 'fi' >> ./dist/$(JPACKAGE)
 	echo 'java -cp $(CP):$(FILENAME) $$MAINCLASS' >> ./dist/$(JPACKAGE)
 	chmod +x ./dist/$(JPACKAGE)
