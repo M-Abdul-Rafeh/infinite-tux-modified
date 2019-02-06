@@ -1,0 +1,3 @@
+cd infinitetux
+java com.mojang.mario.mapedit.LevelEditor
+cd ..
