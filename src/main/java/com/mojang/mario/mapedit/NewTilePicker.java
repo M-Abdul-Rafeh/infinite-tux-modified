@@ -179,6 +179,11 @@ public class NewTilePicker extends javax.swing.JPanel{
         if (tilePickChangedListener!=null)
             tilePickChangedListener.setPickedTile(pickedTile);
     }
+        
+NewLevelEditor getNewLevelEditor(){
+    return this.tilePickChangedListener;
+    
+}        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -33,7 +33,9 @@ public class NewLevelEditor extends JFrame {
     private File levelsDir;
     private String tilesDataFilePath="";
     private String levelsDataFilePath="";
-    private String lastJFileChooserPath=System.getProperty("user.home");    
+    private String lastJFileChooserPath=System.getProperty("user.home");
+    private boolean unsaved = true;
+    private boolean newLevel = true;
     //private  NewTilePicker tilePicker;
     //private  NewLevelEditView levelEditView;
    // private JLabel coordinates;
@@ -106,6 +108,7 @@ public class NewLevelEditor extends JFrame {
           try {
             levelsDataFilePath = levelsDir.getCanonicalPath().toString() + File.separator + "example_level.lvl";
             currentFileNamejLabel.setText(new File(levelsDataFilePath).getName());
+            unsaved = false;
         } catch (IOException ex) {
             Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }     
@@ -113,6 +116,7 @@ public class NewLevelEditor extends JFrame {
         try {
             System.out.println("Loading " + levelsDataFilePath);
            levelEditView.setLevel(Level.load(new DataInputStream(new FileInputStream(levelsDataFilePath))));
+           unsaved = false;
         } catch (Exception e) {
 
             try {
@@ -126,6 +130,7 @@ public class NewLevelEditor extends JFrame {
                 System.out.println("loading " + levelsDataFilePath);
                levelEditView.setLevel(Level.load(new DataInputStream(new FileInputStream(levelsDataFilePath))));
               currentFileNamejLabel.setText(new File(levelsDataFilePath).getName());
+              unsaved = false;
 
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -222,17 +227,30 @@ public class NewLevelEditor extends JFrame {
         pickupablejCheckBox = new javax.swing.JCheckBox();
         animatedjCheckBox = new javax.swing.JCheckBox();
         tilePicker = new com.mojang.mario.mapedit.NewTilePicker();
-        coordinatesjLabel = new javax.swing.JLabel();
+        levelInfojPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        levelWidthjTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        exitXPositionjTextField = new javax.swing.JTextField();
+        exitYPositionjTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        levelHeightjTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         levelEditViewjScrollPane = new javax.swing.JScrollPane();
         levelEditView = new com.mojang.mario.mapedit.NewLevelEditView(tilePicker);
         jPanel2 = new javax.swing.JPanel();
         currentFileNamejLabel = new javax.swing.JLabel();
         testLeveljButton = new javax.swing.JButton();
+        coordinatesjLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         levelEditorjMenu = new javax.swing.JMenu();
+        newLeveljMenuItem = new javax.swing.JMenuItem();
         openFilejMenuItem = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         SaveFilejMenuItem = new javax.swing.JMenuItem();
+        saveAsjMenuItem = new javax.swing.JMenuItem();
+        testLeveljMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -368,13 +386,90 @@ public class NewLevelEditor extends JFrame {
                 .addContainerGap()
                 .addGroup(tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(tilePickerPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 24, Short.MAX_VALUE)
                         .addComponent(tilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bitmapCheckBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        coordinatesjLabel.setText("Coordinates");
+        levelInfojPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Level Info"));
+
+        levelWidthjTextField.setText("255");
+
+        jLabel3.setText("height");
+
+        jLabel4.setText("Exit x position");
+
+        exitXPositionjTextField.setText("245");
+
+        exitYPositionjTextField.setText("10");
+
+        jLabel2.setText("width");
+
+        levelHeightjTextField.setText("16");
+
+        jLabel5.setText("Exit y positon");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(levelWidthjTextField)
+                    .addComponent(levelHeightjTextField)
+                    .addComponent(exitXPositionjTextField)
+                    .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(levelWidthjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(levelHeightjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exitXPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout levelInfojPanelLayout = new javax.swing.GroupLayout(levelInfojPanel);
+        levelInfojPanel.setLayout(levelInfojPanelLayout);
+        levelInfojPanelLayout.setHorizontalGroup(
+            levelInfojPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(levelInfojPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        levelInfojPanelLayout.setVerticalGroup(
+            levelInfojPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(levelInfojPanelLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout lowerPanelLayout = new javax.swing.GroupLayout(lowerPanel);
         lowerPanel.setLayout(lowerPanelLayout);
@@ -383,16 +478,17 @@ public class NewLevelEditor extends JFrame {
             .addGroup(lowerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tilePickerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                .addComponent(coordinatesjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(levelInfojPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         lowerPanelLayout.setVerticalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerPanelLayout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addGroup(lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(coordinatesjLabel)
-                    .addComponent(tilePickerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(levelInfojPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tilePickerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -400,7 +496,7 @@ public class NewLevelEditor extends JFrame {
         levelEditView.setLayout(levelEditViewLayout);
         levelEditViewLayout.setHorizontalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGap(0, 801, Short.MAX_VALUE)
         );
         levelEditViewLayout.setVerticalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,24 +516,36 @@ public class NewLevelEditor extends JFrame {
             }
         });
 
+        coordinatesjLabel.setText("Coordinates");
+
+        jLabel1.setText("Tile Position:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(currentFileNamejLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(currentFileNamejLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(testLeveljButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(coordinatesjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(testLeveljButton)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(currentFileNamejLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(testLeveljButton)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(testLeveljButton)
+                    .addComponent(coordinatesjLabel)
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -449,7 +557,7 @@ public class NewLevelEditor extends JFrame {
                 .addContainerGap()
                 .addGroup(borderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lowerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(levelEditViewjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+                    .addComponent(levelEditViewjScrollPane)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -466,15 +574,25 @@ public class NewLevelEditor extends JFrame {
 
         levelEditorjMenu.setText("File");
 
-        openFilejMenuItem.setText("Open Level");
+        newLeveljMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newLeveljMenuItem.setText("New Level");
+        newLeveljMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newLeveljMenuItemActionPerformed(evt);
+            }
+        });
+        levelEditorjMenu.add(newLeveljMenuItem);
+
+        openFilejMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openFilejMenuItem.setText("Load Level");
         openFilejMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openFilejMenuItemActionPerformed(evt);
             }
         });
         levelEditorjMenu.add(openFilejMenuItem);
-        levelEditorjMenu.add(jSeparator1);
 
+        SaveFilejMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         SaveFilejMenuItem.setText("Save Level");
         SaveFilejMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -482,6 +600,23 @@ public class NewLevelEditor extends JFrame {
             }
         });
         levelEditorjMenu.add(SaveFilejMenuItem);
+
+        saveAsjMenuItem.setText("Save As...");
+        saveAsjMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsjMenuItemActionPerformed(evt);
+            }
+        });
+        levelEditorjMenu.add(saveAsjMenuItem);
+
+        testLeveljMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        testLeveljMenuItem.setText("Test Level");
+        testLeveljMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testLeveljMenuItemActionPerformed(evt);
+            }
+        });
+        levelEditorjMenu.add(testLeveljMenuItem);
 
         jMenuBar1.add(levelEditorjMenu);
 
@@ -549,6 +684,7 @@ public class NewLevelEditor extends JFrame {
                     currentFileNamejLabel.setText(choice.getAbsoluteFile().getName());
 
                     levelEditView.setLevel(Level.load(new DataInputStream(new FileInputStream(levelsDataFilePath))));
+                    newLevel=false;
                 } catch (IOException ex) {
                     Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
@@ -678,38 +814,49 @@ public class NewLevelEditor extends JFrame {
 
     private void SaveFilejMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilejMenuItemActionPerformed
 
-        try {
-            levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream(levelsDataFilePath)));
-        } catch (IOException ex) {
-            Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        if (newLevel) {
+            newLevel = false;
+            saveAs("unamed.lvl");
+        } else {
+
+            save();
         }
     }//GEN-LAST:event_SaveFilejMenuItemActionPerformed
 
     private void testLeveljButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testLeveljButtonActionPerformed
                 //levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream("temp.lvl")));
-                
-                Level currentLevel = levelEditView.getLevel();
-                Level level = new Level(currentLevel.width,currentLevel.height);
-        try {
-            levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream("temp.lvl")));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            level = Level.load(new DataInputStream(new FileInputStream("temp.lvl")));
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-                
-                
-                
-               
-                level.xExit=level.width-10;
-                
+               Level currentLevel = levelEditView.getLevel();
+               Level level = copyLevel(currentLevel);
+               level.xExit = level.width - 10 ;
                
                startLevel(level);
     }//GEN-LAST:event_testLeveljButtonActionPerformed
+
+    private void newLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newLeveljMenuItemActionPerformed
+        try {
+            this.levelEditView.setLevel(new Level(256, 15));
+
+            this.currentFileNamejLabel.setText("unamed.lvl");
+            levelsDataFilePath = levelsDir.getCanonicalPath().toString() + File.separator + "unamed.lvl";
+            unsaved = true;
+            newLevel = true;
+        } catch (IOException ex) {
+            Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_newLeveljMenuItemActionPerformed
+
+    private void saveAsjMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsjMenuItemActionPerformed
+        saveAs(currentFileNamejLabel.getText());
+    }//GEN-LAST:event_saveAsjMenuItemActionPerformed
+
+    private void testLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testLeveljMenuItemActionPerformed
+    
+               Level currentLevel = levelEditView.getLevel();
+               Level level = copyLevel(currentLevel);
+               level.xExit = level.width - 10 ;
+               
+               startLevel(level);
+    }//GEN-LAST:event_testLeveljMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -760,18 +907,31 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JCheckBox bumpablejCheckBox;
     private javax.swing.JLabel coordinatesjLabel;
     private javax.swing.JLabel currentFileNamejLabel;
+    private javax.swing.JTextField exitXPositionjTextField;
+    private javax.swing.JTextField exitYPositionjTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JCheckBox jspecialjCheckBox;
     private com.mojang.mario.mapedit.NewLevelEditView levelEditView;
     private javax.swing.JScrollPane levelEditViewjScrollPane;
     private javax.swing.JMenu levelEditorjMenu;
+    private javax.swing.JTextField levelHeightjTextField;
+    private javax.swing.JPanel levelInfojPanel;
+    private javax.swing.JTextField levelWidthjTextField;
     private javax.swing.JPanel lowerPanel;
+    private javax.swing.JMenuItem newLeveljMenuItem;
     private javax.swing.JMenuItem openFilejMenuItem;
     private javax.swing.JCheckBox pickupablejCheckBox;
+    private javax.swing.JMenuItem saveAsjMenuItem;
     private javax.swing.JButton testLeveljButton;
+    private javax.swing.JMenuItem testLeveljMenuItem;
     private com.mojang.mario.mapedit.NewTilePicker tilePicker;
     private javax.swing.JPanel tilePickerPanel;
     // End of variables declaration//GEN-END:variables
@@ -811,6 +971,84 @@ public class NewLevelEditor extends JFrame {
         }
         return panel;
     }
+    
+    
+    public void setFilenamePanelTextEdited() {
+        String fName = new File(levelsDataFilePath).getName();
+        currentFileNamejLabel.setText("*" + fName );
+        unsaved = true;
+    }
+    
+    public void setFilenamePanelTextSaved() {
+        String fName = new File(levelsDataFilePath).getName();
+        currentFileNamejLabel.setText(fName);
+        unsaved = false;
+    } 
+    private void save() {
+        try {
+            levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream(levelsDataFilePath)));
+            setFilenamePanelTextSaved();
+        } catch (IOException ex) {
+            Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void saveAs(String levelName){
+        File unamedLevel = new File(lastJFileChooserPath + File.separator + levelName);
+    
+      final JFileChooser fileChooser = new JFileChooser(lastJFileChooserPath);
+ 
+     
+      File choice;
+      fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+      FileNameExtensionFilter levelFilter = new FileNameExtensionFilter("lvl files (*.lvl)", "lvl");
+      fileChooser.setSelectedFile(unamedLevel);
+      fileChooser.setFileFilter(levelFilter);
+      fileChooser.setApproveButtonText("Save");
+      
+        int returnVal = fileChooser.showOpenDialog(null);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            if (fileChooser.getSelectedFile() != null) {
+                choice = fileChooser.getSelectedFile();
+                lastJFileChooserPath = choice.getPath();
+
+                try {
+                    levelsDataFilePath = choice.getCanonicalFile().toString();
+
+                    if (choice.exists()) {
+
+                        if (confirmationDialog(choice.getName()) == true) {
+                            save();
+                            currentFileNamejLabel.setText(choice.getAbsoluteFile().getName());
+                        }
+
+                    } else {
+                        save();
+                        currentFileNamejLabel.setText(choice.getAbsoluteFile().getName());
+                    }
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+    
+    boolean confirmationDialog(String name) {
+
+        int retVal = JOptionPane.showConfirmDialog(this, "Are you sure you want to overwrite " + name + "?");
+
+        if (retVal == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }  // end confirmationDialog
+    
+
     private void startLevel(Level level)
     {
         final MarioComponent mario = new MarioComponent(level,640, 480);
@@ -838,5 +1076,28 @@ frame.addWindowListener(new java.awt.event.WindowAdapter() {
         
 //        frame.addKeyListener(mario);
 //        frame.addFocusListener(mario);
-    }    
+    }  
+    
+Level copyLevel(Level l){
+                Level currentLevel = l;
+                Level level = new Level(currentLevel.width,currentLevel.height);
+        try {
+            levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream("temp.lvl")));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            level = Level.load(new DataInputStream(new FileInputStream("temp.lvl")));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+                
+                
+                
+               
+      return level;
+                
+
+}    
 }

@@ -191,6 +191,9 @@ public class NewLevelEditView extends javax.swing.JPanel{
 
             repaint();
         }
+        
+        
+        tilePicker.getNewLevelEditor().setFilenamePanelTextEdited();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
