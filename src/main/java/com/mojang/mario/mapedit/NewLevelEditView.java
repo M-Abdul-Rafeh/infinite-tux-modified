@@ -96,7 +96,10 @@ public class NewLevelEditView extends javax.swing.JPanel{
         g.fillRect(0, 0, level.width * 16, level.height * 16);
         levelRenderer.render(g, 0, 0);
         g.setColor(Color.BLACK);
+        // make sure that stuff is only drawn inthe loaded image
+        if(xTile <= level.width-1 && yTile <= level.height-1){
         g.drawRect(xTile * 16 - 1, yTile * 16 - 1, 17, 17);
+        }
     }
     
     

@@ -1,5 +1,6 @@
 package com.mojang.mario.mapedit;
 
+import com.mojang.mario.LevelScene;
 import com.mojang.mario.MarioComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,8 @@ public class LevelEditor extends JFrame implements ActionListener
         
         try
         {
-            Level.loadBehaviors(new DataInputStream(new FileInputStream("tiles.dat")));
+            //Always load this from the resources  location
+            Level.loadBehaviors(new DataInputStream(LevelScene.class.getResourceAsStream("/tiles.dat")));
         }
         catch (Exception e)
         {
