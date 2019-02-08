@@ -28,6 +28,7 @@ public class Level
     public static final int BIT_ANIMATED = 1 << 7;
 
     private static final int FILE_HEADER = 0x271c4178;
+    private static final int FILE_HEADER_V2 = 0x271c4179;
     public int width;
     public int height;
 
@@ -64,15 +65,25 @@ public class Level
     public static Level load(DataInputStream dis) throws IOException
     {
         long header = dis.readLong();
-        if (header != Level.FILE_HEADER) throw new IOException("Bad level header");
+        if (header != Level.FILE_HEADER && header != Level.FILE_HEADER_V2) throw new IOException("Bad level header");
         @SuppressWarnings("unused")
 		int version = dis.read() & 0xff;
-
+        int xExit = 10;
+        int yExit = 10;
         int width = dis.readShort() & 0xffff;
         int height = dis.readShort() & 0xffff;
+        
+        if (header == Level.FILE_HEADER_V2) 
+        {
+            xExit = dis.readShort() & 0xffff;
+            yExit = dis.readShort() & 0xffff;
+        }
+        
         Level level = new Level(width, height);
         level.map = new byte[width][height];
         level.data = new byte[width][height];
+        level.xExit = xExit;
+        level.yExit = yExit;
         for (int i = 0; i < width; i++)
         {
             dis.readFully(level.map[i]);
@@ -83,17 +94,22 @@ public class Level
 
     public void save(DataOutputStream dos) throws IOException
     {
-        dos.writeLong(Level.FILE_HEADER);
+        dos.writeLong(Level.FILE_HEADER_V2);
         dos.write((byte) 0);
 
         dos.writeShort((short) width);
         dos.writeShort((short) height);
+        
+        dos.writeShort((short) xExit);
+        dos.writeShort((short) yExit);
 
         for (int i = 0; i < width; i++)
         {
             dos.write(map[i]);
             dos.write(data[i]);
         }
+        
+        
     }
 
     public void tick()

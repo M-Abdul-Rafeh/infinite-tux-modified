@@ -18,6 +18,7 @@ import javax.swing.*;
 import com.mojang.mario.level.*;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -116,6 +117,7 @@ public class NewLevelEditor extends JFrame {
         try {
             System.out.println("Loading " + levelsDataFilePath);
            levelEditView.setLevel(Level.load(new DataInputStream(new FileInputStream(levelsDataFilePath))));
+           this.getLevelProperties();
            unsaved = false;
         } catch (Exception e) {
 
@@ -130,6 +132,7 @@ public class NewLevelEditor extends JFrame {
                 System.out.println("loading " + levelsDataFilePath);
                levelEditView.setLevel(Level.load(new DataInputStream(new FileInputStream(levelsDataFilePath))));
               currentFileNamejLabel.setText(new File(levelsDataFilePath).getName());
+              this.getLevelProperties();
               unsaved = false;
 
             } catch (IOException e1) {
@@ -229,14 +232,14 @@ public class NewLevelEditor extends JFrame {
         tilePicker = new com.mojang.mario.mapedit.NewTilePicker();
         levelInfojPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        levelWidthjTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        exitXPositionjTextField = new javax.swing.JTextField();
-        exitYPositionjTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        levelHeightjTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        exitXPositionjTextField = new javax.swing.JFormattedTextField();
+        exitYPositionjTextField = new javax.swing.JFormattedTextField();
+        levelWidthjTextField = new javax.swing.JFormattedTextField();
+        levelHeightjTextField = new javax.swing.JFormattedTextField();
         levelEditViewjScrollPane = new javax.swing.JScrollPane();
         levelEditView = new com.mojang.mario.mapedit.NewLevelEditView(tilePicker);
         jPanel2 = new javax.swing.JPanel();
@@ -386,7 +389,7 @@ public class NewLevelEditor extends JFrame {
                 .addContainerGap()
                 .addGroup(tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(tilePickerPanelLayout.createSequentialGroup()
-                        .addGap(0, 24, Short.MAX_VALUE)
+                        .addGap(0, 64, Short.MAX_VALUE)
                         .addComponent(tilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bitmapCheckBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -394,21 +397,45 @@ public class NewLevelEditor extends JFrame {
 
         levelInfojPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Level Info"));
 
-        levelWidthjTextField.setText("255");
-
         jLabel3.setText("height");
 
         jLabel4.setText("Exit x position");
 
-        exitXPositionjTextField.setText("245");
-
-        exitYPositionjTextField.setText("10");
-
         jLabel2.setText("width");
 
-        levelHeightjTextField.setText("16");
-
         jLabel5.setText("Exit y positon");
+
+        exitXPositionjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        exitXPositionjTextField.setText("10");
+        exitXPositionjTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                exitXPositionjTextFieldFocusLost(evt);
+            }
+        });
+        exitXPositionjTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                exitXPositionjTextFieldKeyTyped(evt);
+            }
+        });
+
+        exitYPositionjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        exitYPositionjTextField.setText("10");
+        exitYPositionjTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                exitYPositionjTextFieldFocusLost(evt);
+            }
+        });
+        exitYPositionjTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                exitYPositionjTextFieldKeyTyped(evt);
+            }
+        });
+
+        levelWidthjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        levelWidthjTextField.setText("255");
+
+        levelHeightjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        levelHeightjTextField.setText("15");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -422,16 +449,15 @@ public class NewLevelEditor extends JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel5)))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(exitYPositionjTextField)
+                    .addComponent(exitXPositionjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(levelWidthjTextField)
-                    .addComponent(levelHeightjTextField)
-                    .addComponent(exitXPositionjTextField)
-                    .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(levelHeightjTextField, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(44, 44, 44))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,17 +468,17 @@ public class NewLevelEditor extends JFrame {
                     .addComponent(levelWidthjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(levelHeightjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exitXPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel3)
+                    .addComponent(levelHeightjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(exitXPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout levelInfojPanelLayout = new javax.swing.GroupLayout(levelInfojPanel);
@@ -462,7 +488,7 @@ public class NewLevelEditor extends JFrame {
             .addGroup(levelInfojPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         levelInfojPanelLayout.setVerticalGroup(
             levelInfojPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,7 +522,7 @@ public class NewLevelEditor extends JFrame {
         levelEditView.setLayout(levelEditViewLayout);
         levelEditViewLayout.setHorizontalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 801, Short.MAX_VALUE)
+            .addGap(0, 849, Short.MAX_VALUE)
         );
         levelEditViewLayout.setVerticalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -685,6 +711,7 @@ public class NewLevelEditor extends JFrame {
 
                     levelEditView.setLevel(Level.load(new DataInputStream(new FileInputStream(levelsDataFilePath))));
                     newLevel=false;
+                    getLevelProperties();
                 } catch (IOException ex) {
                     Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
@@ -824,22 +851,37 @@ public class NewLevelEditor extends JFrame {
     }//GEN-LAST:event_SaveFilejMenuItemActionPerformed
 
     private void testLeveljButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testLeveljButtonActionPerformed
-                //levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream("temp.lvl")));
-               Level currentLevel = levelEditView.getLevel();
-               Level level = copyLevel(currentLevel);
-               level.xExit = level.width - 10 ;
-               
-               startLevel(level);
+        //levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream("temp.lvl")));
+
+        String tmp = exitXPositionjTextField.getText();
+        if (tmp != null) {
+            this.levelEditView.getLevel().xExit = Integer.parseInt(tmp);
+
+        }
+        Level currentLevel = levelEditView.getLevel();
+        Level level = copyLevel(currentLevel);
+        //level.xExit = level.width - 10 ;
+
+        startLevel(level);
     }//GEN-LAST:event_testLeveljButtonActionPerformed
 
     private void newLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newLeveljMenuItemActionPerformed
         try {
-            this.levelEditView.setLevel(new Level(256, 15));
+            Level level = new Level(256, 15);
+            this.levelEditView.setLevel(level);
+            this.levelWidthjTextField.setText(level.width+"");
+            this.levelHeightjTextField.setText(level.height+"");
+            this.exitXPositionjTextField.setText(level.xExit+"");
+             this.exitYPositionjTextField.setText(level.yExit+"");
+            
 
             this.currentFileNamejLabel.setText("unamed.lvl");
             levelsDataFilePath = levelsDir.getCanonicalPath().toString() + File.separator + "unamed.lvl";
             unsaved = true;
             newLevel = true;
+            
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -853,10 +895,38 @@ public class NewLevelEditor extends JFrame {
     
                Level currentLevel = levelEditView.getLevel();
                Level level = copyLevel(currentLevel);
-               level.xExit = level.width - 10 ;
+               //level.xExit = level.width - 10 ;
                
                startLevel(level);
     }//GEN-LAST:event_testLeveljMenuItemActionPerformed
+
+    private void exitXPositionjTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_exitXPositionjTextFieldKeyTyped
+        
+        this.setFilenamePanelTextEdited();
+    }//GEN-LAST:event_exitXPositionjTextFieldKeyTyped
+
+    private void exitYPositionjTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_exitYPositionjTextFieldKeyTyped
+        
+        this.setFilenamePanelTextEdited();
+    }//GEN-LAST:event_exitYPositionjTextFieldKeyTyped
+
+    private void exitXPositionjTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_exitXPositionjTextFieldFocusLost
+        String tmp = exitXPositionjTextField.getText();
+        if(tmp != null){
+        this.levelEditView.getLevel().xExit = Integer.parseInt(tmp);
+
+       
+        }
+    }//GEN-LAST:event_exitXPositionjTextFieldFocusLost
+
+    private void exitYPositionjTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_exitYPositionjTextFieldFocusLost
+       String tmp = exitYPositionjTextField.getText();
+        if(tmp != null){
+        this.levelEditView.getLevel().yExit = Integer.parseInt(tmp);
+
+       
+        } 
+    }//GEN-LAST:event_exitYPositionjTextFieldFocusLost
 
     /**
      * @param args the command line arguments
@@ -907,8 +977,8 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JCheckBox bumpablejCheckBox;
     private javax.swing.JLabel coordinatesjLabel;
     private javax.swing.JLabel currentFileNamejLabel;
-    private javax.swing.JTextField exitXPositionjTextField;
-    private javax.swing.JTextField exitYPositionjTextField;
+    private javax.swing.JFormattedTextField exitXPositionjTextField;
+    private javax.swing.JFormattedTextField exitYPositionjTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -922,9 +992,9 @@ public class NewLevelEditor extends JFrame {
     private com.mojang.mario.mapedit.NewLevelEditView levelEditView;
     private javax.swing.JScrollPane levelEditViewjScrollPane;
     private javax.swing.JMenu levelEditorjMenu;
-    private javax.swing.JTextField levelHeightjTextField;
+    private javax.swing.JFormattedTextField levelHeightjTextField;
     private javax.swing.JPanel levelInfojPanel;
-    private javax.swing.JTextField levelWidthjTextField;
+    private javax.swing.JFormattedTextField levelWidthjTextField;
     private javax.swing.JPanel lowerPanel;
     private javax.swing.JMenuItem newLeveljMenuItem;
     private javax.swing.JMenuItem openFilejMenuItem;
@@ -1080,9 +1150,9 @@ frame.addWindowListener(new java.awt.event.WindowAdapter() {
     
 Level copyLevel(Level l){
                 Level currentLevel = l;
-                Level level = new Level(currentLevel.width,currentLevel.height);
+               Level level = null;
         try {
-            levelEditView.getLevel().save(new DataOutputStream(new FileOutputStream("temp.lvl")));
+            l.save(new DataOutputStream(new FileOutputStream("temp.lvl")));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -1099,5 +1169,17 @@ Level copyLevel(Level l){
       return level;
                 
 
-}    
+}
+
+
+void getLevelProperties(){
+    Level currentLevel = this.levelEditView.getLevel();
+    this.levelWidthjTextField.setText(currentLevel.width+"");
+    this.levelHeightjTextField.setText(currentLevel.height+"");
+    this.exitXPositionjTextField.setText(currentLevel.xExit+"");
+    this.exitYPositionjTextField.setText(currentLevel.yExit+"");
+    
+
+
+}
 }
