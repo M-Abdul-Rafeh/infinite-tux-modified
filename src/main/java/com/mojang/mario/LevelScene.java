@@ -72,12 +72,19 @@ public class LevelScene extends Scene implements SpriteContext
     {
         try
         { // now loads tile behaviors correctly? 
-            Level.loadBehaviors(new DataInputStream(new FileInputStream("tiles.dat")));
+            //Level.loadBehaviors(new DataInputStream(new FileInputStream("tiles.dat")));
+            Level.loadBehaviors(new DataInputStream(new FileInputStream(System.getProperty("user.home") + File.separatorChar + "infinitetux_data" + File.separatorChar + "tiles.dat")));
+           
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            System.exit(0);
+            try {
+                Level.loadBehaviors(new DataInputStream(LevelScene.class.getResourceAsStream("/tiles.dat")));
+                //System.exit(0);
+            } catch (IOException ex) {
+                Logger.getLogger(LevelScene.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
         }
 
             /*        if (replayer!=null)
