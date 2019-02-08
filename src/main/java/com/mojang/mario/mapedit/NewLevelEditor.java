@@ -678,7 +678,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -728,7 +728,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -745,7 +745,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -762,7 +762,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -779,7 +779,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -796,7 +796,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -813,7 +813,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -830,7 +830,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -888,7 +888,7 @@ public class NewLevelEditor extends JFrame {
     }//GEN-LAST:event_newLeveljMenuItemActionPerformed
 
     private void saveAsjMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsjMenuItemActionPerformed
-        saveAs(currentFileNamejLabel.getText());
+        saveAs(currentFileNamejLabel.getText().replace("*", ""));
     }//GEN-LAST:event_saveAsjMenuItemActionPerformed
 
     private void testLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testLeveljMenuItemActionPerformed
@@ -1029,7 +1029,7 @@ public class NewLevelEditor extends JFrame {
 
                     try
                     {
-                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream("tiles.dat")));
+                        Level.saveBehaviors(new DataOutputStream(new FileOutputStream(tilesDataFilePath)));
                     }
                     catch (Exception e)
                     {
@@ -1091,12 +1091,12 @@ public class NewLevelEditor extends JFrame {
 
                         if (confirmationDialog(choice.getName()) == true) {
                             save();
-                            currentFileNamejLabel.setText(choice.getAbsoluteFile().getName());
+                            currentFileNamejLabel.setText(choice.getAbsoluteFile().getName().replace("*", ""));
                         }
 
                     } else {
                         save();
-                        currentFileNamejLabel.setText(choice.getAbsoluteFile().getName());
+                        currentFileNamejLabel.setText(choice.getAbsoluteFile().getName().replace("*", ""));
                     }
                     
                 } catch (IOException ex) {
