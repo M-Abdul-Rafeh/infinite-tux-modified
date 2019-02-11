@@ -68,6 +68,7 @@ SOURCEFILES    = $(SOURCEDIR)/sonar/SoundListener.java \
                  $(SOURCEDIR)/mario/mapedit/LevelEditor.java \
                  $(SOURCEDIR)/mario/mapedit/NewLevelEditView.java \
                  $(SOURCEDIR)/mario/mapedit/NewTilePicker.java \
+                 $(SOURCEDIR)/mario/mapedit/EnemyTilePicker.java \
                  $(SOURCEDIR)/mario/mapedit/NewLevelEditor.java \
                  $(SOURCEDIR)/mario/LevelRenderer.java \
                  $(SOURCEDIR)/mario/LoseScene.java

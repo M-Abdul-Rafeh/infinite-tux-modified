@@ -3,6 +3,7 @@ package com.mojang.mario;
 import java.awt.*;
 import java.util.Random;
 import com.mojang.mario.level.*;
+import com.mojang.mario.sprites.Enemy;
 
 
 public class LevelRenderer
@@ -13,6 +14,7 @@ public class LevelRenderer
     private Graphics2D g;
     private static final Color transparent = new Color(0, 0, 0, 0);
     private Level level;
+    boolean onlyEditorView = false;
 
     @SuppressWarnings("unused")
 	private Random random = new Random();
@@ -84,6 +86,13 @@ public class LevelRenderer
                 {
                     g.drawImage(Art.level[b % 16][b / 16], (x << 4) - xCam, (y << 4) - yCam, null);
                 }
+//                SpriteTemplate st = level.getSpriteTemplate(x, y);
+//                
+//                if(st!=null && st.lastVisibleTick == -1)
+//                {
+//                  
+//                  g.drawImage(Art.enemies[0][2], 16*x, 16*y-16,16,32, null);
+//                }
             }
         }
     }
@@ -126,6 +135,9 @@ public class LevelRenderer
                  if (yo > 0) yo = (int) (Math.sin((yo - alpha) / 4.0f * Math.PI) * 8);
                  g.drawImage(Art.mapSprites[(4 + animTime)][0], (x << 4) - xCam, (y << 4) - yCam - yo, null);
                  }*/
+                
+                
+                
 
                 if (renderBehaviors)
                 {
@@ -170,6 +182,16 @@ public class LevelRenderer
                     if (((Level.TILE_BEHAVIORS[b & 0xff]) & Level.BIT_ANIMATED) > 0)
                     {
                     }
+                    
+                    
+                SpriteTemplate st = level.getSpriteTemplate(x, y);
+                
+                if(st!=null)
+                {
+                  
+                  g.drawImage(Art.enemies[0][this.getEnemyMap(st.type)], 16*x, 16*y-16,16,32, null);
+                }                    
+                    
                 }
 
             }
@@ -179,6 +201,11 @@ public class LevelRenderer
     {
         updateArea(x * 16 - xCam, y * 16 - yCam, w * 16, h * 16);
     }
+    public void repaint(int x, int y, int w, int h, boolean s )
+    {
+        onlyEditorView = s;
+        updateArea(x * 16 - xCam, y * 16 - yCam, w * 16, h * 16);
+    }    
 
     public void setLevel(Level level)
     {
@@ -207,5 +234,31 @@ public class LevelRenderer
         {
             g.drawImage(Art.level[13][y == level.yExit - 8 ? 4 : 5], (level.xExit << 4) - xCam + 16, (y << 4) - yCam, null);
         }
+    }
+    
+   private  int getEnemyMap(int enemyType) {
+        int yPos = -1;
+        switch (enemyType) {
+            case Enemy.ENEMY_RED_KOOPA:
+                yPos = 0;
+                break;
+
+            case Enemy.ENEMY_GREEN_KOOPA:
+                yPos = 1;
+                break;
+
+            case Enemy.ENEMY_GOOMBA:
+                yPos = 2;
+                break;
+            case Enemy.ENEMY_SPIKY:
+                yPos = 3;
+                break;
+            case Enemy.ENEMY_FLOWER:
+                yPos = 6;
+                break;
+
+        }
+
+        return yPos;
     }
 }

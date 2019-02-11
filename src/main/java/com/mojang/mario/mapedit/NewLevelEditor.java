@@ -37,6 +37,8 @@ public class NewLevelEditor extends JFrame {
     private String lastJFileChooserPath=System.getProperty("user.home");
     private boolean unsaved = true;
     private boolean newLevel = true;
+    private int tileFrom;
+    private int pickedEnemy;
     //private  NewTilePicker tilePicker;
     //private  NewLevelEditView levelEditView;
    // private JLabel coordinates;
@@ -179,6 +181,7 @@ public class NewLevelEditor extends JFrame {
 //        levelEditViewjScrollPane.add(levelEditView);
         //buildBitmapPanel();
         tilePicker.addTilePickChangedListener(this);
+        enemyTilePicker.addEnemyPickChangedListener(this);
         setContentPane(borderPanel);
 
 
@@ -186,17 +189,39 @@ public class NewLevelEditor extends JFrame {
     
    
 
-    
-    public void setPickedTile(byte pickedTile)
-    {
-        int bm = Level.TILE_BEHAVIORS[pickedTile&0xff]&0xff;
-        
-        for (int i=0; i<8; i++)
+    public void setPickedTile(byte pickedTile, int from) {
+        switch (from) 
         {
-            bitmapCheckboxes[i].setSelected((bm&(1<<i))>0);
+            case 0:
+                int bm = Level.TILE_BEHAVIORS[pickedTile & 0xff] & 0xff;
+                tileFrom=from;
+                levelEditView.tileFrom=tileFrom;
+                for (int i = 0; i < 8; i++) 
+                {
+                    bitmapCheckboxes[i].setSelected((bm & (1 << i)) > 0);
+                }
+
+                
+                break;
+            case 1:
+                tileFrom=from;
+                levelEditView.tileFrom=tileFrom;
+                    
+                break;
+                
         }
+
     }
     
+    
+    
+    public void setPickedEnemy(int pickedEnemy)
+    {
+    this.pickedEnemy=pickedEnemy;
+    levelEditView.tileFrom=1;
+    
+    }
+
 
     public void setCoordinates(int x , int y)
     {
@@ -240,8 +265,10 @@ public class NewLevelEditor extends JFrame {
         exitYPositionjTextField = new javax.swing.JFormattedTextField();
         levelWidthjTextField = new javax.swing.JFormattedTextField();
         levelHeightjTextField = new javax.swing.JFormattedTextField();
+        enemyPickerPanel = new javax.swing.JPanel();
+        enemyTilePicker = new com.mojang.mario.mapedit.EnemyTilePicker();
         levelEditViewjScrollPane = new javax.swing.JScrollPane();
-        levelEditView = new com.mojang.mario.mapedit.NewLevelEditView(tilePicker);
+        levelEditView = new com.mojang.mario.mapedit.NewLevelEditView(tilePicker,enemyTilePicker);
         jPanel2 = new javax.swing.JPanel();
         currentFileNamejLabel = new javax.swing.JLabel();
         testLeveljButton = new javax.swing.JButton();
@@ -358,7 +385,7 @@ public class NewLevelEditor extends JFrame {
                 .addComponent(pickupablejCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(animatedjCheckBox)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout tilePickerLayout = new javax.swing.GroupLayout(tilePicker);
@@ -369,7 +396,7 @@ public class NewLevelEditor extends JFrame {
         );
         tilePickerLayout.setVerticalGroup(
             tilePickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 256, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout tilePickerPanelLayout = new javax.swing.GroupLayout(tilePickerPanel);
@@ -377,22 +404,20 @@ public class NewLevelEditor extends JFrame {
         tilePickerPanelLayout.setHorizontalGroup(
             tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tilePickerPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addComponent(tilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
+                .addGap(18, 18, 18)
                 .addComponent(bitmapCheckBoxPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tilePickerPanelLayout.setVerticalGroup(
             tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tilePickerPanelLayout.createSequentialGroup()
+            .addGroup(tilePickerPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(tilePickerPanelLayout.createSequentialGroup()
-                        .addGap(0, 64, Short.MAX_VALUE)
-                        .addComponent(tilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bitmapCheckBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(bitmapCheckBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tilePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         levelInfojPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Level Info"));
@@ -454,8 +479,8 @@ public class NewLevelEditor extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(exitYPositionjTextField)
-                    .addComponent(exitXPositionjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .addComponent(levelWidthjTextField)
+                    .addComponent(exitXPositionjTextField)
+                    .addComponent(levelWidthjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(levelHeightjTextField, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(44, 44, 44))
         );
@@ -478,22 +503,52 @@ public class NewLevelEditor extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout levelInfojPanelLayout = new javax.swing.GroupLayout(levelInfojPanel);
         levelInfojPanel.setLayout(levelInfojPanelLayout);
         levelInfojPanelLayout.setHorizontalGroup(
             levelInfojPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(levelInfojPanelLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, levelInfojPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap())
         );
         levelInfojPanelLayout.setVerticalGroup(
             levelInfojPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(levelInfojPanelLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        enemyPickerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Enemy Picker"));
+
+        javax.swing.GroupLayout enemyTilePickerLayout = new javax.swing.GroupLayout(enemyTilePicker);
+        enemyTilePicker.setLayout(enemyTilePickerLayout);
+        enemyTilePickerLayout.setHorizontalGroup(
+            enemyTilePickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 256, Short.MAX_VALUE)
+        );
+        enemyTilePickerLayout.setVerticalGroup(
+            enemyTilePickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 256, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout enemyPickerPanelLayout = new javax.swing.GroupLayout(enemyPickerPanel);
+        enemyPickerPanel.setLayout(enemyPickerPanelLayout);
+        enemyPickerPanelLayout.setHorizontalGroup(
+            enemyPickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(enemyPickerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(enemyTilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(86, Short.MAX_VALUE))
+        );
+        enemyPickerPanelLayout.setVerticalGroup(
+            enemyPickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, enemyPickerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(enemyTilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -504,25 +559,28 @@ public class NewLevelEditor extends JFrame {
             .addGroup(lowerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tilePickerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(levelInfojPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(enemyPickerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(levelInfojPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         lowerPanelLayout.setVerticalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerPanelLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tilePickerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(levelInfojPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tilePickerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(enemyPickerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(76, 76, 76))
         );
 
         javax.swing.GroupLayout levelEditViewLayout = new javax.swing.GroupLayout(levelEditView);
         levelEditView.setLayout(levelEditViewLayout);
         levelEditViewLayout.setHorizontalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 849, Short.MAX_VALUE)
+            .addGap(0, 1378, Short.MAX_VALUE)
         );
         levelEditViewLayout.setVerticalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -595,7 +653,8 @@ public class NewLevelEditor extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(levelEditViewjScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lowerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lowerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
 
         levelEditorjMenu.setText("File");
@@ -659,10 +718,10 @@ public class NewLevelEditor extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(borderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(borderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -977,6 +1036,8 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JCheckBox bumpablejCheckBox;
     private javax.swing.JLabel coordinatesjLabel;
     private javax.swing.JLabel currentFileNamejLabel;
+    private javax.swing.JPanel enemyPickerPanel;
+    private com.mojang.mario.mapedit.EnemyTilePicker enemyTilePicker;
     private javax.swing.JFormattedTextField exitXPositionjTextField;
     private javax.swing.JFormattedTextField exitYPositionjTextField;
     private javax.swing.JLabel jLabel1;
@@ -1165,8 +1226,8 @@ Level copyLevel(Level l){
                 
                 
                 
-               
-      return level;
+        return l;       
+      //return level;
                 
 
 }

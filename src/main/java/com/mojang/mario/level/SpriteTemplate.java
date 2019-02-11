@@ -10,7 +10,7 @@ public class SpriteTemplate
     public boolean isDead = false;
     private boolean winged;
     
-    private int type;
+    public int type;
     
     public SpriteTemplate(int type, boolean winged)
     {

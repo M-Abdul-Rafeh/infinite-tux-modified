@@ -8,9 +8,12 @@ package com.mojang.mario.mapedit;
 import com.mojang.mario.Art;
 import com.mojang.mario.LevelRenderer;
 import com.mojang.mario.level.Level;
+import com.mojang.mario.level.SpriteTemplate;
+import com.mojang.mario.sprites.Enemy;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 
 /**
  *
@@ -25,6 +28,8 @@ public class NewLevelEditView extends javax.swing.JPanel{
     private int xTile = -1;
     private int yTile = -1;
     private NewTilePicker tilePicker;
+    private EnemyTilePicker enemyTilePicker;
+    public int tileFrom;
     /**
      * Creates new form NewLevelEditView
      */
@@ -51,7 +56,22 @@ public class NewLevelEditView extends javax.swing.JPanel{
         //addMouseListener(this);
         //addMouseMotionListener(this);
         //setOpaque(true);
-    }  
+    } 
+    public NewLevelEditView(NewTilePicker tilePicker, EnemyTilePicker enemyTilePicker)
+    {
+        initComponents();
+        this.tilePicker = tilePicker;
+        this.enemyTilePicker = enemyTilePicker;
+        level = new Level(256, 15);
+        Dimension size = new Dimension(level.width * 16, level.height * 16);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+
+        //addMouseListener(this);
+        //addMouseMotionListener(this);
+        //setOpaque(true);
+    }    
     
     public NewLevelEditView(NewTilePicker tilePicker, int levelLength, int levelWidth)
     {
@@ -90,19 +110,41 @@ public class NewLevelEditView extends javax.swing.JPanel{
         levelRenderer = new LevelRenderer(level, getGraphicsConfiguration(), level.width * 16, level.height * 16);
         levelRenderer.renderBehaviors = true;
     }
-    public void paintComponent(Graphics g)
-    {
+
+    public void paintComponent(Graphics g) {
         g.setColor(new Color(0x8090ff));
         g.fillRect(0, 0, level.width * 16, level.height * 16);
         levelRenderer.render(g, 0, 0);
         g.setColor(Color.BLACK);
         // make sure that stuff is only drawn inthe loaded image
-        if(xTile <= level.width-1 && yTile <= level.height){
-        g.drawRect(xTile * 16 - 1, yTile * 16 - 1, 17, 17);
+        if (xTile <= level.width - 1 && yTile <= level.height) {
+
+            if (this.tileFrom == 0) {
+                {
+                    Image img = Art.level[(tilePicker.pickedTile & 0xff) % 16][(tilePicker.pickedTile & 0xff) / 16];
+                    g.drawImage(img, xTile * 16 - 1, yTile * 16 - 1, 16, 16, null);
+                    g.drawRect(xTile * 16 - 1, yTile * 16 - 1, 17, 17);
+
+                }
+            }
+            if (this.tileFrom == 1) {
+                {
+                    if (enemyTilePicker.pickedEnemy > -1 && enemyTilePicker.status >-1 )
+                    {
+                    Image img = Art.enemies[enemyTilePicker.status][enemyTilePicker.pickedEnemy];
+                    g.drawImage(img, xTile * 16 - 1, yTile * 16 - 16, 16, 32, null);
+                }
+                    g.drawRect(xTile * 16 - 1, yTile * 16 - 16, 17, 33);
+
+                }
+            }            
+            
+            
         }
+        
+        
+        
     }
-    
-    
 
 
     /**
@@ -153,12 +195,52 @@ public class NewLevelEditView extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        xTile = evt.getX() / 16;
-        yTile = evt.getY() / 16;
+        switch (tileFrom) 
+        {
+            case 0:
+                xTile = evt.getX() / 16;
+                yTile = evt.getY() / 16;
 
-        level.setBlock(xTile, yTile, tilePicker.pickedTile);
-        levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);
+                level.setBlock(xTile, yTile, tilePicker.pickedTile);
+                levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);
+                break;
+            case 1:
+                xTile = evt.getX() / 16;
+                yTile = evt.getY() / 16;
 
+                level.setSpriteTemplate(xTile, yTile,new SpriteTemplate(enemyTilePicker.pickedEnemy,false));
+                
+                
+                    boolean winged = false;
+                    boolean clear = false;
+                    int status = enemyTilePicker.status;
+                    switch (status) {
+                        case 0:
+                            winged = false;
+                            break;
+                        case 1:
+                            winged = true;
+                            break;
+                        case 2:
+                            winged = false;
+                            clear = true;
+                            break;
+                    }
+                    if (!clear) {
+                        level.setSpriteTemplate(xTile, yTile, new SpriteTemplate(enemyTilePicker.pickedEnemy, winged));
+                    } else {
+                        level.setSpriteTemplate(xTile, yTile, null);
+
+                    }
+                    levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);
+
+                    repaint();                
+                
+                
+                levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);                
+                break;
+
+        }
         repaint();
     }//GEN-LAST:event_formMouseDragged
 
@@ -177,22 +259,70 @@ public class NewLevelEditView extends javax.swing.JPanel{
     }//GEN-LAST:event_formMouseEntered
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-         xTile = evt.getX() / 16;
+        xTile = evt.getX() / 16;
         yTile = evt.getY() / 16;
+        switch (tileFrom) {
+            case 0:
 
-        if (evt.getButton() == 3)
-        {
-            tilePicker.setPickedTile(level.getBlock(xTile, yTile));
-        }
-        else
-        {
-            level.setBlock(xTile, yTile, tilePicker.pickedTile);
-            levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);
+                if (evt.getButton() == 3) {
+                    tilePicker.setPickedTile(level.getBlock(xTile, yTile));
+                } else {
+                    level.setBlock(xTile, yTile, tilePicker.pickedTile);
+                    levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);
 
-            repaint();
+                    repaint();
+                }
+                break;
+            case 1:
+                SpriteTemplate st = level.getSpriteTemplate(xTile, yTile);
+                boolean clear = false;
+
+                boolean winged = false;
+
+                int status = enemyTilePicker.status;
+                switch (status) {
+                    case 0:
+                        winged = false;
+                        break;
+                    case 1:
+                        winged = true;
+                        break;
+                    case 2:
+                        winged = false;
+                        clear = true;
+                        break;
+                }
+                if (evt.getButton() == 3) {
+                    //enemyTilePicker.setPickedTile(level.getBlock(xTile, yTile));
+                    // SpriteTemplate st = level.getSpriteTemplate(xTile, yTile);
+
+                    if (st != null) {
+                        if (!clear) {
+                            enemyTilePicker.setPickedEnemy(status, st.type);
+                        }
+
+                    } else {
+                        level.setSpriteTemplate(xTile, yTile, null);
+                        //enemyTilePicker.setPickedEnemy(status, st.type);
+                    }
+
+
+                    
+                } else {
+
+                    if (!clear) {
+                        level.setSpriteTemplate(xTile, yTile, new SpriteTemplate(enemyTilePicker.pickedEnemy, winged));
+                    } else {
+                        level.setSpriteTemplate(xTile, yTile, null);
+
+                    }
+                    levelRenderer.repaint(xTile - 1, yTile - 1, 3, 3);
+
+                    repaint();
+                }
+                break;
         }
-        
-        
+
         tilePicker.getNewLevelEditor().setFilenamePanelTextEdited();
     }//GEN-LAST:event_formMousePressed
 
@@ -201,11 +331,11 @@ public class NewLevelEditView extends javax.swing.JPanel{
     }//GEN-LAST:event_formMouseReleased
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+
         xTile = evt.getX() / 16;
         yTile = evt.getY() / 16;
-        ((NewLevelEditor)this.getRootPane().getParent()).setCoordinates(xTile, yTile);
-       
-       
+        ((NewLevelEditor) this.getRootPane().getParent()).setCoordinates(xTile, yTile);
+
         repaint();
     }//GEN-LAST:event_formMouseMoved
 
