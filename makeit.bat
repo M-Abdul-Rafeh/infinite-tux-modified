@@ -3,7 +3,7 @@ echo off
 IF EXIST .\leveleditor goto deleteimb
 mkdir leveleditor
 
-javac -source 1.6 -target 1.6 -d .\leveleditor .\src\main\java\com\mojang\mario\*.java .\src\main\java\com\mojang\mario\level\*.java .\src\main\java\com\mojang\mario\mapedit\*.java .\src\main\java\com\mojang\mario\sprites\*.java .\src\main\java\com\mojang\sonar\*.java .\src\main\java\com\mojang\sonar\mixer\*.java .\src\main\java\com\mojang\sonar\sample\*.java
+javac -source 1.7 -target 1.7 -d .\leveleditor .\src\main\java\com\mojang\mario\*.java .\src\main\java\com\mojang\mario\level\*.java .\src\main\java\com\mojang\mario\mapedit\*.java .\src\main\java\com\mojang\mario\sprites\*.java .\src\main\java\com\mojang\sonar\*.java .\src\main\java\com\mojang\sonar\mixer\*.java .\src\main\java\com\mojang\sonar\sample\*.java
 xcopy src\main\resources\*  leveleditor /E/Y
 
 jar cfm leveleditor.jar manifest.txt -C .\leveleditor . 

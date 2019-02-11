@@ -77,7 +77,7 @@ SOURCEFILES    = $(SOURCEDIR)/sonar/SoundListener.java \
 JC             = javac
 JRT            = java
 JAR            = jar
-JCFLAGS        = -source 1.6 -target 1.6 -d ./$(JPACKAGE)
+JCFLAGS        = -source 1.7 -target 1.7 -d ./$(JPACKAGE)
 ##############Desktop file fields#######################################
 TITLE          = "Infinite Tux Level Editor"
 COMMENT        = "Infinite Tux Level Editor"

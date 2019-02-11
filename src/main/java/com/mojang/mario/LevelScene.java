@@ -103,31 +103,40 @@ public class LevelScene extends Scene implements SpriteContext
          {
          recorder.addLong(LevelGenerator.lastSeed);
          }*/
-
+   /*    
+        levelType = LevelGenerator.TYPE_UNDERGROUND;
         if (levelType == LevelGenerator.TYPE_OVERGROUND) {
-            //Art.startMusic(1);
+            Art.startMusic(1);
             musicType = 1;
         } else if (levelType == LevelGenerator.TYPE_UNDERGROUND) {
-            //Art.startMusic(2);
+            Art.startMusic(2);
             musicType = 2;
         } else if (levelType == LevelGenerator.TYPE_CASTLE) {
-            //Art.startMusic(3);
+            Art.startMusic(3);
             musicType = 3;
         }
-
+         */
+   
+        // set gackground and music
+        levelType = level.levelType;
+        if (level.levelMusic > -1) {
+            Art.startMusic(level.levelMusic);
+        }
 
         paused = false;
         Sprite.spriteContext = this;
         sprites.clear();
         layer = new LevelRenderer(level, graphicsConfiguration, 320, 240);
-        for (int i = 0; i < 2; i++)
-        {
-            int scrollSpeed = 4 >> i;
-            int w = ((level.width * 16) - 320) / scrollSpeed + 320;
-            int h = ((level.height * 16) - 240) / scrollSpeed + 240;
-            //Level bgLevel = BgLevelGenerator.createLevel(w / 32 + 1, h / 32 + 1, i == 0, levelType);
-           // bgLayer[i] = new BgRenderer(bgLevel, graphicsConfiguration, 320, 240, scrollSpeed);
+        if (levelType > -1) {
+            for (int i = 0; i < 2; i++) {
+                int scrollSpeed = 4 >> i;
+                int w = ((level.width * 16) - 320) / scrollSpeed + 320;
+                int h = ((level.height * 16) - 240) / scrollSpeed + 240;
+                Level bgLevel = BgLevelGenerator.createLevel(w / 32 + 1, h / 32 + 1, i == 0, levelType);
+                bgLayer[i] = new BgRenderer(bgLevel, graphicsConfiguration, 320, 240, scrollSpeed);
+            }
         }
+        
         mario = new Mario(this);
         sprites.add(mario);
         startTime = 1;
@@ -364,11 +373,12 @@ public class LevelScene extends Scene implements SpriteContext
         if (yCam > level.height * 16 - 240) yCam = level.height * 16 - 240;
 
         //      g.drawImage(Art.background, 0, 0, null);
-
-        for (int i = 0; i < 2; i++)
-        {
-           // bgLayer[i].setCam(xCam, yCam);
-            //bgLayer[i].render(g, tick, alpha);
+         //draws the back ground  
+         if (levelType > -1) {
+            for (int i = 0; i < 2; i++) {
+                bgLayer[i].setCam(xCam, yCam);
+                bgLayer[i].render(g, tick, alpha);
+            }
         }
 
         g.translate(-xCam, -yCam);

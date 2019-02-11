@@ -40,6 +40,8 @@ public class Level
 
     public int xExit;
     public int yExit;
+    public int levelType;
+    public int levelMusic;
 
     public Level(int width, int height)
     {
@@ -48,6 +50,9 @@ public class Level
 
         xExit = 10;
         yExit = 10;
+        levelType = LevelGenerator.TYPE_OVERGROUND;
+        levelType = -1;
+        levelMusic = -1;
         map = new byte[width][height];
         data = new byte[width][height];
         spriteTemplates = new SpriteTemplate[width][height];
@@ -84,6 +89,7 @@ public class Level
             xExit = dis.readShort() & 0xffff;
             yExit = dis.readShort() & 0xffff;
             
+            
         }
         level.xExit = xExit;
         level.yExit = yExit;
@@ -96,6 +102,10 @@ public class Level
         }
         // read enemy data
         if (header == Level.FILE_HEADER_V3) {
+            
+            level.levelType = dis.readInt();
+            level.levelMusic = dis.readInt();
+            
             int x = 0;
             int y = 0;
             int type = 0;
@@ -154,13 +164,13 @@ public class Level
         
         dos.writeShort((short) xExit);
         dos.writeShort((short) yExit);
-        //save map data
-//        for (int i = 0; i < width; i++)
-//        {
-//            dos.write(map[i]);
-//            dos.write(data[i]);
-//        }
         
+        dos.writeInt(this.levelType);
+        dos.writeInt(this.levelMusic);
+        
+        //save map data
+
+ 
        for (int w = 0; w < width; w++)
         {
             for (int h = 0; h < height; h++)

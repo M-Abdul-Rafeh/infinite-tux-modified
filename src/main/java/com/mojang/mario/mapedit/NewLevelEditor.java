@@ -265,6 +265,8 @@ public class NewLevelEditor extends JFrame {
         exitYPositionjTextField = new javax.swing.JFormattedTextField();
         levelWidthjTextField = new javax.swing.JFormattedTextField();
         levelHeightjTextField = new javax.swing.JFormattedTextField();
+        backGroundjComboBox = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
         enemyPickerPanel = new javax.swing.JPanel();
         enemyTilePicker = new com.mojang.mario.mapedit.EnemyTilePicker();
         levelEditViewjScrollPane = new javax.swing.JScrollPane();
@@ -416,7 +418,7 @@ public class NewLevelEditor extends JFrame {
                 .addContainerGap()
                 .addGroup(tilePickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(bitmapCheckBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tilePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tilePicker, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -462,6 +464,10 @@ public class NewLevelEditor extends JFrame {
         levelHeightjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         levelHeightjTextField.setText("15");
 
+        backGroundjComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Overground", "Underground", "Castle" }));
+
+        jLabel6.setText("BackGround");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -475,9 +481,11 @@ public class NewLevelEditor extends JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(backGroundjComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exitYPositionjTextField)
                     .addComponent(exitXPositionjTextField)
                     .addComponent(levelWidthjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
@@ -503,7 +511,11 @@ public class NewLevelEditor extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(exitYPositionjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backGroundjComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout levelInfojPanelLayout = new javax.swing.GroupLayout(levelInfojPanel);
@@ -542,12 +554,12 @@ public class NewLevelEditor extends JFrame {
             .addGroup(enemyPickerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(enemyTilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         enemyPickerPanelLayout.setVerticalGroup(
             enemyPickerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, enemyPickerPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(enemyTilePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -561,9 +573,9 @@ public class NewLevelEditor extends JFrame {
                 .addComponent(tilePickerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(enemyPickerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(levelInfojPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         lowerPanelLayout.setVerticalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,7 +592,7 @@ public class NewLevelEditor extends JFrame {
         levelEditView.setLayout(levelEditViewLayout);
         levelEditViewLayout.setHorizontalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1378, Short.MAX_VALUE)
+            .addGap(0, 1129, Short.MAX_VALUE)
         );
         levelEditViewLayout.setVerticalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1027,6 +1039,7 @@ public class NewLevelEditor extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem SaveFilejMenuItem;
     private javax.swing.JCheckBox animatedjCheckBox;
+    private javax.swing.JComboBox<String> backGroundjComboBox;
     private javax.swing.JPanel bitmapCheckBoxPanel;
     private javax.swing.JCheckBox blockAlljCheckBox;
     private javax.swing.JCheckBox blockLowerjCheckBox;
@@ -1045,6 +1058,7 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;

@@ -10,7 +10,7 @@ fi
 mkdir leveleditor
 mkdir dist
 
-javac -source 1.6 -target 1.6 -d \
+javac -source 1.7 -target 1.7 -d \
 ./leveleditor ./src/main/java/com/mojang/mario/*.java \
 ./src/main/java/com/mojang/mario/level/*.java \
 ./src/main/java/com/mojang/mario/mapedit/*.java \
