@@ -29,6 +29,7 @@ public class Level
 
     private static final int FILE_HEADER = 0x271c4178;
     private static final int FILE_HEADER_V2 = 0x271c4179;
+    private static final int FILE_HEADER_V3 = 0x271c417a;
     public int width;
     public int height;
 
@@ -65,36 +66,87 @@ public class Level
     public static Level load(DataInputStream dis) throws IOException
     {
         long header = dis.readLong();
-        if (header != Level.FILE_HEADER && header != Level.FILE_HEADER_V2) throw new IOException("Bad level header");
+        if (header != Level.FILE_HEADER && header != Level.FILE_HEADER_V2 && header != Level.FILE_HEADER_V3) throw new IOException("Bad level header");
         @SuppressWarnings("unused")
-		int version = dis.read() & 0xff;
+	int version = dis.read() & 0xff;
         int xExit = 10;
         int yExit = 10;
         int width = dis.readShort() & 0xffff;
         int height = dis.readShort() & 0xffff;
         
-        if (header == Level.FILE_HEADER_V2) 
-        {
-            xExit = dis.readShort() & 0xffff;
-            yExit = dis.readShort() & 0xffff;
-        }
-        
         Level level = new Level(width, height);
         level.map = new byte[width][height];
         level.data = new byte[width][height];
+        
+        
+        if (header == Level.FILE_HEADER_V2 || header == Level.FILE_HEADER_V3) 
+        {
+            xExit = dis.readShort() & 0xffff;
+            yExit = dis.readShort() & 0xffff;
+            
+        }
         level.xExit = xExit;
         level.yExit = yExit;
-        for (int i = 0; i < width; i++)
-        {
-            dis.readFully(level.map[i]);
-            dis.readFully(level.data[i]);
+        
+        if (header == Level.FILE_HEADER || header == Level.FILE_HEADER_V2) {
+            for (int i = 0; i < width; i++) {
+                dis.readFully(level.map[i]);
+                dis.readFully(level.data[i]);
+            }
         }
+        // read enemy data
+        if (header == Level.FILE_HEADER_V3) {
+            int x = 0;
+            int y = 0;
+            int type = 0;
+            int w = 0;
+            boolean winged = false;
+            
+            for (int W = 0; W < width; W++) 
+            {
+                for (int H = 0 ; H < height ; H++)
+                {
+                    level.map[W][H] = dis.readByte();
+                    level.data[W][H] = dis.readByte();
+                    
+                
+                }
+                
+            }
+            
+            
+
+            int numOfEnemies = 0;
+            numOfEnemies=  dis.readInt();
+          
+
+            if (numOfEnemies > 0) {
+                for (int q = 0; q < numOfEnemies; q++) {
+
+                    type = dis.readInt();
+                    w = dis.readInt();
+                    x = dis.readInt();
+                    y = dis.readInt();
+
+                    if (w == 1) {
+                        winged = true;
+                    }
+
+                    level.setSpriteTemplate(x, y, new SpriteTemplate(type, winged));
+                    winged = false;
+
+                }
+            }
+
+        }
+        
+        
         return level;
     }
 
     public void save(DataOutputStream dos) throws IOException
     {
-        dos.writeLong(Level.FILE_HEADER_V2);
+        dos.writeLong(Level.FILE_HEADER_V3);
         dos.write((byte) 0);
 
         dos.writeShort((short) width);
@@ -102,14 +154,69 @@ public class Level
         
         dos.writeShort((short) xExit);
         dos.writeShort((short) yExit);
-
-        for (int i = 0; i < width; i++)
+        //save map data
+//        for (int i = 0; i < width; i++)
+//        {
+//            dos.write(map[i]);
+//            dos.write(data[i]);
+//        }
+        
+       for (int w = 0; w < width; w++)
         {
-            dos.write(map[i]);
-            dos.write(data[i]);
+            for (int h = 0; h < height; h++)
+            {
+                dos.writeByte(map[w][h]);
+                dos.writeByte(data[w][h]);
+
+            
+            }
+        
+        }        
+       
+        //save enemy data
+        int numOfEnemies = 0;
+        for (int w = 0; w < width; w++)
+        {
+            for (int h = 0; h < height; h++)
+            {
+                SpriteTemplate st = getSpriteTemplate(w,h);
+                if(st != null)                
+                {
+                    numOfEnemies++;            
+                }
+            
+            }
+        
         }
         
+        dos.writeInt(numOfEnemies);
         
+        for (int w = 0; w < width; w++)
+        {
+            for (int h = 0; h < height; h++)
+            {
+                SpriteTemplate st = getSpriteTemplate(w,h);
+                if(st != null)                
+                {
+                    int winged = 0;
+                    if(st.winged)
+                    {
+                        winged = 1;
+                    }
+                    dos.writeInt(st.type);
+                    dos.writeInt(winged);
+                    dos.writeInt(w);
+                    dos.writeInt(h);                    
+                    winged = 0;
+                    numOfEnemies++;
+            
+                }
+            
+            }
+        
+        }        
+        
+       
     }
 
     public void tick()
@@ -186,4 +293,9 @@ public class Level
         if (y >= height) return;
         spriteTemplates[x][y] = spriteTemplate;
     }
+    
+      
+    
+    
+    
 }
