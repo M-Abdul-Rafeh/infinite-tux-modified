@@ -8,7 +8,7 @@ public class SpriteTemplate
     public int lastVisibleTick = -1;
     public Sprite sprite;
     public boolean isDead = false;
-    private boolean winged;
+    public boolean winged;
     
     public int type;
     

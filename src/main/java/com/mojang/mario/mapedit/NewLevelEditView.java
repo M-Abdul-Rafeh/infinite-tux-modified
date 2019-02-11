@@ -119,9 +119,12 @@ public class NewLevelEditView extends javax.swing.JPanel{
         // make sure that stuff is only drawn inthe loaded image
         if (xTile <= level.width - 1 && yTile <= level.height) {
 
-            if (this.tileFrom == 0) {
+            if (tilePicker != null && this.tileFrom == 0) {
                 {
-                    Image img = Art.level[(tilePicker.pickedTile & 0xff) % 16][(tilePicker.pickedTile & 0xff) / 16];
+                    int x = (tilePicker.pickedTile & 0xff) % 16;
+                    int y = (tilePicker.pickedTile & 0xff) / 16;
+
+                    Image img = Art.level[x][y];
                     g.drawImage(img, xTile * 16 - 1, yTile * 16 - 1, 16, 16, null);
                     g.drawRect(xTile * 16 - 1, yTile * 16 - 1, 17, 17);
 
@@ -129,9 +132,10 @@ public class NewLevelEditView extends javax.swing.JPanel{
             }
             if (this.tileFrom == 1) {
                 {
-                    if (enemyTilePicker.pickedEnemy > -1 && enemyTilePicker.status >-1 )
+                    if (enemyTilePicker.pickedEnemy > -1 && enemyTilePicker.status >-1 && enemyTilePicker.pickedEnemy < 7 && enemyTilePicker.status < 3)
                     {
-                    Image img = Art.enemies[enemyTilePicker.status][enemyTilePicker.pickedEnemy];
+                    Image img = Art.enemypicker[enemyTilePicker.status][this.getEnemyMap(enemyTilePicker.pickedEnemy)];
+                    //Image img = Art.enemies[enemyTilePicker.status][enemyTilePicker.pickedEnemy];
                     g.drawImage(img, xTile * 16 - 1, yTile * 16 - 16, 16, 32, null);
                 }
                     g.drawRect(xTile * 16 - 1, yTile * 16 - 16, 17, 33);
@@ -356,4 +360,30 @@ public class NewLevelEditView extends javax.swing.JPanel{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+   private  int getEnemyMap(int enemyType) {
+        int yPos = -1;
+        switch (enemyType) {
+            case Enemy.ENEMY_RED_KOOPA:
+                yPos = 0;
+                break;
+
+            case Enemy.ENEMY_GREEN_KOOPA:
+                yPos = 1;
+                break;
+
+            case Enemy.ENEMY_GOOMBA:
+                yPos = 2;
+                break;
+            case Enemy.ENEMY_SPIKY:
+                yPos = 3;
+                break;
+            case Enemy.ENEMY_FLOWER:
+                yPos = 6;
+                break;
+
+        }
+
+        return yPos;
+    }
 }

@@ -39,6 +39,7 @@ public class Art
     public static Image[][] smallMario;
     public static Image[][] fireMario;
     public static Image[][] enemies;
+    public static Image[][] enemypicker;
     public static Image[][] items;
     public static Image[][] level;
     public static Image[][] particles;
@@ -64,6 +65,7 @@ public class Art
             smallMario = cutImage(gc, "/smallmariosheet.png", 16, 16);
             fireMario = cutImage(gc, "/firemariosheet.png", 32, 32);
             enemies = cutImage(gc, "/enemysheet.png", 16, 32);
+            enemypicker = cutImage(gc, "/enemypicker.png", 16, 32);
             items = cutImage(gc, "/itemsheet.png", 16, 16);
             level = cutImage(gc, "/mapsheet.png", 16, 16);
             map = cutImage(gc, "/worldmap.png", 16, 16);

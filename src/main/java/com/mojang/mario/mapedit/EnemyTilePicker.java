@@ -134,7 +134,7 @@ private int xTile = -1;
         for (int x=0; x<16; x++)
             for (int y=0; y<8; y++)
             {
-                g.drawImage(Art.enemies[x][y], (x << 4), (y << 5), null);
+                g.drawImage(Art.enemypicker[x][y], (x << 4), (y << 5), null);
             }
 
         g.setColor(Color.WHITE);

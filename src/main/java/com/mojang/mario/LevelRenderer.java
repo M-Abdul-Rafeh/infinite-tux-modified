@@ -183,15 +183,19 @@ public class LevelRenderer
                     {
                     }
                     
-                    
-                SpriteTemplate st = level.getSpriteTemplate(x, y);
-                
-                if(st!=null)
-                {
-                  
-                  g.drawImage(Art.enemies[0][this.getEnemyMap(st.type)], 16*x, 16*y-16,16,32, null);
-                }                    
-                    
+                    SpriteTemplate st = level.getSpriteTemplate(x, y);
+
+                    if (st != null) {
+                        int enemyMap = getEnemyMap(st.type);
+                        int winged = 0;
+                        if (st.winged) {
+                            winged = 1;
+                        }
+                        if (enemyMap < 7 && enemyMap > -1) {
+                            g.drawImage(Art.enemypicker[winged][enemyMap], 16 * x, 16 * y - 16, 16, 32, null);
+                        }
+                    }
+
                 }
 
             }
