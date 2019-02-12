@@ -22,6 +22,7 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
     private static final long serialVersionUID = 739318775993206607L;
     public static final int TICKS_PER_SECOND = 24;
 
+    public Thread marioThread;
     private boolean running = false;
     private int width, height;
     private Level level;
@@ -121,6 +122,11 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 			try {
 				//System.exit(1);
                                 stop();
+                                this.scene = null;
+                                running = false;
+                               
+                                marioThread = null;
+                     
                                 SwingUtilities.getWindowAncestor(this).dispose();
                                
                                
@@ -143,14 +149,16 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
         if (!running)
         {
             running = true;
-            new Thread(this, "Game Thread").start();
+            marioThread = new Thread(this, "Game Thread");
+            marioThread.start();
+            
         }
     }
 
-    public void stop()
-    {
+    public void stop() {
         Art.stopMusic();
         running = false;
+
     }
 
     public void run()
@@ -268,6 +276,8 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
         }
 
         Art.stopMusic();
+        //stop();
+        running = false;
     }
 
     private void drawString(Graphics g, String text, int x, int y, int c)
@@ -300,11 +310,12 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
     {
         //scene = mapScene;
         //mapScene.startMusic();
-       // Mario.lives--;
+       //Mario.lives = 0;
         //if (Mario.lives == 0)
        // {
        //     lose();
        // }
+        
     }
 
     public void keyTyped(KeyEvent arg0)
@@ -328,11 +339,12 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 //        mapScene.levelWon();
     }
     
-    public void win()
-    {
+    public void win() {
 //        scene = new WinScene(this);
 //        scene.setSound(sound);
 //        scene.init();
+
+
     }
     
     public void toTitle()
@@ -348,6 +360,7 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 //        scene = new LoseScene(this);
 //        scene.setSound(sound);
 //        scene.init();
+
     }
 
     public void startGame()

@@ -594,10 +594,11 @@ public class Mario extends Sprite
     {
         xDeathPos = (int) x;
         yDeathPos = (int) y;
+        world.mario.setLarge(false, false);
         world.paused = true;
         winTime = 1;
         Art.stopMusic();
-        world.sound.play(Art.samples[Art.SAMPLE_LEVEL_EXIT], this, 1, 1, 1);
+        //world.sound.play(Art.samples[Art.SAMPLE_LEVEL_EXIT], this, 1, 1, 1);
     }
 
     public void die()
@@ -608,7 +609,9 @@ public class Mario extends Sprite
         world.paused = true;
         deathTime = 1;
         Art.stopMusic();
-        world.sound.play(Art.samples[Art.SAMPLE_MARIO_DEATH], this, 1, 1, 1);
+       
+        
+       //world.sound.play(Art.samples[Art.SAMPLE_MARIO_DEATH], this, 1, 1, 1);
     }
 
 

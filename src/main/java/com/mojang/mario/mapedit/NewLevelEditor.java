@@ -267,6 +267,8 @@ public class NewLevelEditor extends JFrame {
         levelHeightjTextField = new javax.swing.JFormattedTextField();
         backGroundjComboBox = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        musicjComboBox = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
         enemyPickerPanel = new javax.swing.JPanel();
         enemyTilePicker = new com.mojang.mario.mapedit.EnemyTilePicker();
         levelEditViewjScrollPane = new javax.swing.JScrollPane();
@@ -387,7 +389,7 @@ public class NewLevelEditor extends JFrame {
                 .addComponent(pickupablejCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(animatedjCheckBox)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout tilePickerLayout = new javax.swing.GroupLayout(tilePicker);
@@ -465,8 +467,22 @@ public class NewLevelEditor extends JFrame {
         levelHeightjTextField.setText("15");
 
         backGroundjComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Overground", "Underground", "Castle" }));
+        backGroundjComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backGroundjComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("BackGround");
+
+        musicjComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Overground", "Underground", "Castle" }));
+        musicjComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                musicjComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Music");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -482,9 +498,12 @@ public class NewLevelEditor extends JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(musicjComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(backGroundjComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exitYPositionjTextField)
                     .addComponent(exitXPositionjTextField)
@@ -515,6 +534,10 @@ public class NewLevelEditor extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backGroundjComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(musicjComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -999,6 +1022,49 @@ public class NewLevelEditor extends JFrame {
         } 
     }//GEN-LAST:event_exitYPositionjTextFieldFocusLost
 
+    private void backGroundjComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backGroundjComboBoxActionPerformed
+        int i = backGroundjComboBox.getSelectedIndex();
+        Level l = levelEditView.getLevel();
+        
+        switch(i)
+        {
+            case 0:
+                l.levelType = -1;
+                break;
+            case 1:
+                l.levelType = LevelGenerator.TYPE_OVERGROUND;
+                break;
+            case 2:
+                l.levelType = LevelGenerator.TYPE_UNDERGROUND;
+                break;
+            case 3:
+                l.levelType = LevelGenerator.TYPE_CASTLE;
+                break;
+
+                
+        }
+    }//GEN-LAST:event_backGroundjComboBoxActionPerformed
+
+    private void musicjComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_musicjComboBoxActionPerformed
+        int i = musicjComboBox.getSelectedIndex();
+        Level l = levelEditView.getLevel();
+        
+        switch(i)
+        {
+            case 0:
+                l.levelMusic = -1;
+                break;
+            case 1:
+                l.levelMusic = 1;
+                break;
+            case 2:
+                l.levelMusic = 2;
+                break;
+            case 3:
+                l.levelMusic = 3;
+                break;      
+    }//GEN-LAST:event_musicjComboBoxActionPerformed
+    }
     /**
      * @param args the command line arguments
      */
@@ -1059,6 +1125,7 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -1071,6 +1138,7 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JPanel levelInfojPanel;
     private javax.swing.JFormattedTextField levelWidthjTextField;
     private javax.swing.JPanel lowerPanel;
+    private javax.swing.JComboBox<String> musicjComboBox;
     private javax.swing.JMenuItem newLeveljMenuItem;
     private javax.swing.JMenuItem openFilejMenuItem;
     private javax.swing.JCheckBox pickupablejCheckBox;
@@ -1209,12 +1277,16 @@ public class NewLevelEditor extends JFrame {
         frame.setVisible(true);
         
         mario.start();
+       
+       
         
         
 frame.addWindowListener(new java.awt.event.WindowAdapter() {
     @Override
     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
          mario.stop();
+         mario.marioThread = null;
+         
         
     }
 });        
@@ -1248,11 +1320,50 @@ Level copyLevel(Level l){
 
 
 void getLevelProperties(){
+    int levelType = levelEditView.getLevel().levelType;
+    int levelMusic = levelEditView.getLevel().levelMusic;
     Level currentLevel = this.levelEditView.getLevel();
     this.levelWidthjTextField.setText(currentLevel.width+"");
     this.levelHeightjTextField.setText(currentLevel.height+"");
     this.exitXPositionjTextField.setText(currentLevel.xExit+"");
     this.exitYPositionjTextField.setText(currentLevel.yExit+"");
+    
+    switch (levelType) {
+        case -1:
+            backGroundjComboBox.setSelectedIndex(0);
+            break;
+        case LevelGenerator.TYPE_OVERGROUND:
+            backGroundjComboBox.setSelectedIndex(1);
+            break;
+        case LevelGenerator.TYPE_UNDERGROUND:
+            backGroundjComboBox.setSelectedIndex(2);
+            break;
+        case LevelGenerator.TYPE_CASTLE:
+        backGroundjComboBox.setSelectedIndex(3);
+            break;
+            
+
+    }
+    switch (levelMusic) {
+        case -1:
+             musicjComboBox.setSelectedIndex(0);
+            break;
+        case 1:
+            musicjComboBox.setSelectedIndex(1);
+            break;
+        case 2:
+             musicjComboBox.setSelectedIndex(2);
+            break;
+        case 3:
+         musicjComboBox.setSelectedIndex(3);
+            break;
+            
+
+    }    
+    
+    
+
+    this.musicjComboBox.setSelectedIndex(levelEditView.getLevel().levelMusic);
     
 
 

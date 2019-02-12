@@ -51,8 +51,8 @@ public class Level
         xExit = 10;
         yExit = 10;
         levelType = LevelGenerator.TYPE_OVERGROUND;
-        levelType = -1;
-        levelMusic = -1;
+       // levelType = -1;
+        levelMusic = 1;
         map = new byte[width][height];
         data = new byte[width][height];
         spriteTemplates = new SpriteTemplate[width][height];
