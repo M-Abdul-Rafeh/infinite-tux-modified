@@ -42,7 +42,7 @@ public class LevelGenerator
         this.height = height;
     }
 
-    private Level createLevel(long seed, int difficulty, int type)
+    public Level createLevel(long seed, int difficulty, int type)
     {
         this.type = type;
         this.difficulty = difficulty;

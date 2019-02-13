@@ -77,7 +77,7 @@ public class NewLevelEditView extends javax.swing.JPanel{
     {
         initComponents();
         this.tilePicker = tilePicker;
-        level = new Level(levelLength, levelWidth);
+        level = new Level(256, 15);
         Dimension size = new Dimension(level.width * 16, level.height * 16);
         setPreferredSize(size);
         setMinimumSize(size);

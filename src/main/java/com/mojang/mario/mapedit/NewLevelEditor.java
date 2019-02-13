@@ -16,6 +16,7 @@ import javax.swing.*;
 
 
 import com.mojang.mario.level.*;
+import java.util.Random;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.NumberFormatter;
@@ -281,6 +282,7 @@ public class NewLevelEditor extends JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         levelEditorjMenu = new javax.swing.JMenu();
         newLeveljMenuItem = new javax.swing.JMenuItem();
+        randomLeveljMenuItem = new javax.swing.JMenuItem();
         openFilejMenuItem = new javax.swing.JMenuItem();
         SaveFilejMenuItem = new javax.swing.JMenuItem();
         saveAsjMenuItem = new javax.swing.JMenuItem();
@@ -703,6 +705,15 @@ public class NewLevelEditor extends JFrame {
         });
         levelEditorjMenu.add(newLeveljMenuItem);
 
+        randomLeveljMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        randomLeveljMenuItem.setText("Create Random Level");
+        randomLeveljMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomLeveljMenuItemActionPerformed(evt);
+            }
+        });
+        levelEditorjMenu.add(randomLeveljMenuItem);
+
         openFilejMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openFilejMenuItem.setText("Load Level");
         openFilejMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -962,11 +973,14 @@ public class NewLevelEditor extends JFrame {
     private void newLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newLeveljMenuItemActionPerformed
         try {
             Level level = new Level(256, 15);
+            //Level level = this.createRandomLevel(256, 15);
+            
             this.levelEditView.setLevel(level);
-            this.levelWidthjTextField.setText(level.width+"");
-            this.levelHeightjTextField.setText(level.height+"");
-            this.exitXPositionjTextField.setText(level.xExit+"");
-             this.exitYPositionjTextField.setText(level.yExit+"");
+            getLevelProperties();
+//            this.levelWidthjTextField.setText(level.width+"");
+//            this.levelHeightjTextField.setText(level.height+"");
+//            this.exitXPositionjTextField.setText(level.xExit+"");
+//             this.exitYPositionjTextField.setText(level.yExit+"");
             
 
             this.currentFileNamejLabel.setText("unamed.lvl");
@@ -1064,7 +1078,36 @@ public class NewLevelEditor extends JFrame {
                 l.levelMusic = 3;
                 break;      
     }//GEN-LAST:event_musicjComboBoxActionPerformed
-    }
+ }
+    
+    
+    private void randomLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomLeveljMenuItemActionPerformed
+        try {
+            Level level = this.createRandomLevel(256, 15);
+            this.levelEditView.setLevel(level);
+//            this.levelWidthjTextField.setText(level.width+"");
+//            this.levelHeightjTextField.setText(level.height+"");
+//            this.exitXPositionjTextField.setText(level.xExit+"");
+//            this.exitYPositionjTextField.setText(level.yExit+"");
+            getLevelProperties();
+
+            this.currentFileNamejLabel.setText("unamed.lvl");
+            levelsDataFilePath = levelsDir.getCanonicalPath().toString() + File.separator + "unamed.lvl";
+            unsaved = true;
+            newLevel = true;
+            
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(NewLevelEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_randomLeveljMenuItemActionPerformed
+    
+    
+    
+    
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -1142,6 +1185,7 @@ public class NewLevelEditor extends JFrame {
     private javax.swing.JMenuItem newLeveljMenuItem;
     private javax.swing.JMenuItem openFilejMenuItem;
     private javax.swing.JCheckBox pickupablejCheckBox;
+    private javax.swing.JMenuItem randomLeveljMenuItem;
     private javax.swing.JMenuItem saveAsjMenuItem;
     private javax.swing.JButton testLeveljButton;
     private javax.swing.JMenuItem testLeveljMenuItem;
@@ -1367,5 +1411,34 @@ void getLevelProperties(){
     
 
 
-}
+    }
+
+    private Level createRandomLevel(int width, int height) {
+        //Random random = new Random();
+        long seed = new Random().nextLong();
+        int difficulty = new Random().nextInt(5) + 1;
+        int levelType = new Random().nextInt(3);
+        //random = new Random(seed);
+
+        Level level = level = LevelGenerator.createLevel(width, height, seed, difficulty, levelType);
+        
+        level.levelType = levelType;
+        switch(levelType){
+            case LevelGenerator.TYPE_OVERGROUND:
+                level.levelMusic = 1;
+                break;
+            case LevelGenerator.TYPE_UNDERGROUND:
+                level.levelMusic = 2;
+                break;
+           case LevelGenerator.TYPE_CASTLE:
+                level.levelMusic = 3;
+                break;
+        }
+        
+        
+        
+        
+        return level;
+
+    }
 }
