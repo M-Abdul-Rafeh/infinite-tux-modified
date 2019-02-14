@@ -564,7 +564,7 @@ public class MapScene extends Scene
                         }
 
                         Art.stopMusic();
-                        marioComponent.startLevel(seed * x * y + x * 31871 + y * 21871, difficulty, type);
+                        marioComponent.startLevel(seed * x * y + x * 31871 + y * 21871, difficulty, type,32,0);
                     }
                 }
             }

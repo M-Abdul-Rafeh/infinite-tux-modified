@@ -75,6 +75,18 @@ public class Mario extends Sprite
         setLarge(Mario.large, Mario.fire);
     }
     
+        public Mario(LevelScene world , int marioStartX, int marioStarty)
+    {
+        Mario.instance = this;
+        this.world = world;
+        keys = Scene.keys;
+        x = marioStartX;
+        y = marioStarty;
+
+        facing = 1;
+        setLarge(Mario.large, Mario.fire);
+    }
+    
     private boolean lastLarge;
     private boolean lastFire;
     private boolean newLarge;

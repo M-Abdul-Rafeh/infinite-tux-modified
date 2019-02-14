@@ -256,6 +256,7 @@ public class NewLevelEditView extends javax.swing.JPanel{
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         xTile = -1;
         yTile = -1;
+        ((NewLevelEditor) this.getRootPane().getParent()).setCoordinates(1, 0);
         repaint();
     }//GEN-LAST:event_formMouseExited
 

@@ -5,6 +5,7 @@
  */
 package com.mojang.mario.mapedit;
 
+import static com.mojang.mario.Art.mario;
 import com.mojang.mario.LevelScene;
 import com.mojang.mario.MarioComponent;
 import java.awt.*;
@@ -40,6 +41,8 @@ public class NewLevelEditor extends JFrame {
     private boolean newLevel = true;
     private int tileFrom;
     private int pickedEnemy;
+    private int marioStartX = 32;
+    private int marioStartY = 0;
     //private  NewTilePicker tilePicker;
     //private  NewLevelEditView levelEditView;
    // private JLabel coordinates;
@@ -226,6 +229,8 @@ public class NewLevelEditor extends JFrame {
 
     public void setCoordinates(int x , int y)
     {
+        marioStartX = (x) * 16+8;
+        marioStartY = (y) * 16+8;
         coordinateText="X=" + x +" , " +"Y="+y;
         coordinatesjLabel.setText(coordinateText);
     
@@ -1309,7 +1314,7 @@ public class NewLevelEditor extends JFrame {
 
     private void startLevel(Level level)
     {
-        final MarioComponent mario = new MarioComponent(level,640, 480);
+        final MarioComponent mario = new MarioComponent(level,640, 480,this.marioStartX,this.marioStartY);
         final JFrame frame = new JFrame();
         frame.setContentPane(mario);
         frame.pack();
@@ -1320,9 +1325,10 @@ public class NewLevelEditor extends JFrame {
         frame.setLocation((screenSize.width-frame.getWidth())/2, (screenSize.height-frame.getHeight())/2);
         
         frame.setVisible(true);
-        
         mario.start();
-       
+        
+      
+
        
         
         

@@ -22,6 +22,8 @@ public class LevelScene extends Scene implements SpriteContext
 
     public Level level;
     public Mario mario;
+    int marioStartX=32;
+    int marioStartY=0;
     public float xCam, yCam, xCamO, yCamO;
     public static Image tmpImage;
     private int tick;
@@ -66,6 +68,19 @@ public class LevelScene extends Scene implements SpriteContext
         this.level = l;
         //this.levelType = type;
          this.levelType = LevelGenerator.TYPE_OVERGROUND;
+    } 
+    
+    public LevelScene(GraphicsConfiguration graphicsConfiguration, MarioComponent renderer, long seed, int levelDifficulty , int type ,Level l , int marioStartX, int marioStartY)
+    {
+        this.graphicsConfiguration = graphicsConfiguration;
+        this.levelSeed = seed;
+        this.renderer = renderer;
+        this.levelDifficulty = levelDifficulty;
+        this.level = l;
+        //this.levelType = type;
+         this.levelType = LevelGenerator.TYPE_OVERGROUND;
+         this.marioStartX=marioStartX;
+         this.marioStartY=marioStartY;
     }    
 
     public void init()
@@ -137,7 +152,7 @@ public class LevelScene extends Scene implements SpriteContext
             }
         }
         
-        mario = new Mario(this);
+        mario = new Mario(this,marioStartX,marioStartY);
         sprites.add(mario);
         startTime = 1;
         

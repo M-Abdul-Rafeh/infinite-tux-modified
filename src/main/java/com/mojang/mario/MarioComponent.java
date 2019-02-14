@@ -25,9 +25,11 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
     public Thread marioThread;
     private boolean running = false;
     private int width, height;
+    private int marioStartX=32;
+    private int marioStartY =32;
     private Level level;
     private GraphicsConfiguration graphicsConfiguration;
-    private Scene scene;
+   public Scene scene;
     private SonarSoundEngine sound;
     @SuppressWarnings("unused")
 	private boolean focused = false;
@@ -36,6 +38,35 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
     int delay;
 
     private Scale2x scale2x = new Scale2x(320, 240);
+    
+    public MarioComponent(int width, int height,int marioStartX, int marioStartY)
+    {
+    this.marioStartX=marioStartX;
+    this.marioStartY=marioStartY;
+        this.setFocusable(true);
+        this.setEnabled(true);
+        this.width = width;
+        this.height = height;
+        
+
+        Dimension size = new Dimension(width, height);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+
+        try
+        {
+            sound = new SonarSoundEngine(64);
+        }
+        catch (LineUnavailableException e)
+        {
+            e.printStackTrace();
+            sound = new FakeSoundEngine();
+        }
+
+        setFocusable(true);
+    
+    }
     public MarioComponent(int width, int height)
     {
         this.setFocusable(true);
@@ -86,6 +117,35 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
         setFocusable(true);
     }
+    
+    
+    public MarioComponent(Level l ,int width, int height,int marioStartX, int marioStartY)
+    {
+    this.marioStartX=marioStartX;
+    this.marioStartY=marioStartY;
+        this.setFocusable(true);
+        this.setEnabled(true);
+        this.width = width;
+        this.height = height;
+        this.level = l;
+
+        Dimension size = new Dimension(width, height);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+
+        try
+        {
+            sound = new SonarSoundEngine(64);
+        }
+        catch (LineUnavailableException e)
+        {
+            e.printStackTrace();
+            sound = new FakeSoundEngine();
+        }
+
+        setFocusable(true);
+    }    
 
     private void toggleKey(int keyCode, boolean isPressed)
     {
@@ -299,9 +359,9 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
         toggleKey(arg0.getKeyCode(), false);
     }
 
-    public void startLevel(long seed, int difficulty, int type)
+    public void startLevel(long seed, int difficulty, int type, int marioStartX, int marioStartY)
     {
-        scene = new LevelScene(graphicsConfiguration, this, seed, difficulty, type, level);
+        scene = new LevelScene(graphicsConfiguration, this, seed, difficulty, type, level ,marioStartX , marioStartY);
         scene.setSound(sound);
         scene.init();
     }
@@ -368,7 +428,7 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
         //scene = mapScene;
 //        mapScene.startMusic();
   //      mapScene.init();
-        startLevel( 1,  1,  2);
+        startLevel( 1,  1,  2 , marioStartX, marioStartY);
    }
     
     public void adjustFPS() {
