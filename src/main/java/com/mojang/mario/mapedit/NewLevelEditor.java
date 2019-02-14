@@ -463,7 +463,7 @@ public class NewLevelEditor extends JFrame {
         });
 
         levelWidthjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        levelWidthjTextField.setText("255");
+        levelWidthjTextField.setText("639");
 
         levelHeightjTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         levelHeightjTextField.setText("15");
@@ -617,7 +617,7 @@ public class NewLevelEditor extends JFrame {
         levelEditView.setLayout(levelEditViewLayout);
         levelEditViewLayout.setHorizontalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1129, Short.MAX_VALUE)
+            .addGap(0, 10243, Short.MAX_VALUE)
         );
         levelEditViewLayout.setVerticalGroup(
             levelEditViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -652,7 +652,7 @@ public class NewLevelEditor extends JFrame {
                         .addComponent(currentFileNamejLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(testLeveljButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9937, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(coordinatesjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -972,7 +972,8 @@ public class NewLevelEditor extends JFrame {
 
     private void newLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newLeveljMenuItemActionPerformed
         try {
-            Level level = new Level(256, 15);
+            Level level = new Level(640, 15);
+            
             //Level level = this.createRandomLevel(256, 15);
             
             this.levelEditView.setLevel(level);
@@ -1083,7 +1084,7 @@ public class NewLevelEditor extends JFrame {
     
     private void randomLeveljMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomLeveljMenuItemActionPerformed
         try {
-            Level level = this.createRandomLevel(256, 15);
+            Level level = this.createRandomLevel(640, 15);
             this.levelEditView.setLevel(level);
 //            this.levelWidthjTextField.setText(level.width+"");
 //            this.levelHeightjTextField.setText(level.height+"");

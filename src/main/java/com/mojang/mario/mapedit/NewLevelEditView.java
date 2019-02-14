@@ -35,8 +35,8 @@ public class NewLevelEditView extends javax.swing.JPanel{
      */
     public NewLevelEditView() {
         initComponents();
-        level = new Level(256, 15);
-        Dimension size = new Dimension(723, level.height * 16);
+        level = new Level(640, 15);
+        Dimension size = new Dimension(level.width * 16, level.height * 16);
         setPreferredSize(size);
         setMinimumSize(size);
         setMaximumSize(size);        
@@ -47,7 +47,7 @@ public class NewLevelEditView extends javax.swing.JPanel{
     {
         initComponents();
         this.tilePicker = tilePicker;
-        level = new Level(256, 15);
+        level = new Level(640, 15);
         Dimension size = new Dimension(level.width * 16, level.height * 16);
         setPreferredSize(size);
         setMinimumSize(size);
@@ -62,7 +62,7 @@ public class NewLevelEditView extends javax.swing.JPanel{
         initComponents();
         this.tilePicker = tilePicker;
         this.enemyTilePicker = enemyTilePicker;
-        level = new Level(256, 15);
+        level = new Level(640,15);
         Dimension size = new Dimension(level.width * 16, level.height * 16);
         setPreferredSize(size);
         setMinimumSize(size);
@@ -77,7 +77,7 @@ public class NewLevelEditView extends javax.swing.JPanel{
     {
         initComponents();
         this.tilePicker = tilePicker;
-        level = new Level(256, 15);
+        level = new Level(640, 15);
         Dimension size = new Dimension(level.width * 16, level.height * 16);
         setPreferredSize(size);
         setMinimumSize(size);
@@ -97,6 +97,7 @@ public class NewLevelEditView extends javax.swing.JPanel{
         setMaximumSize(size);
         repaint();
         levelRenderer.setLevel(level);
+        this.addNotify();
     }
     public Level getLevel()
     {
