@@ -1,1 +1,1 @@
-Main-Class: com.mojang.mario.mapedit.LevelEditor
+Main-Class: com.mojang.mario.mapedit.NewLevelEditor
