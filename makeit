@@ -10,7 +10,7 @@ fi
 mkdir leveleditor
 mkdir dist
 
-javac -source 1.7 -target 1.7 -d \
+javac --release 8 -d \
 ./leveleditor ./src/main/java/com/mojang/mario/*.java \
 ./src/main/java/com/mojang/mario/level/*.java \
 ./src/main/java/com/mojang/mario/mapedit/*.java \
@@ -20,8 +20,6 @@ javac -source 1.7 -target 1.7 -d \
 ./src/main/java/com/mojang/sonar/sample/*.java
 
 cp -R ./src/main/resources/* ./leveleditor
-cp copyright_bsd_3_clause.txt ./leveleditor
-cp copyright ./leveleditor
 
 jar cfm leveleditor.jar manifest.txt -C ./leveleditor .
 mv leveleditor.jar ./dist

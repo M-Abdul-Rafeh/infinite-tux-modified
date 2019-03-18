@@ -2,6 +2,7 @@ package com.mojang.sonar;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.Buffer;
 
 import javax.sound.sampled.*;
 
@@ -34,7 +35,7 @@ public class SonarSoundEngine implements Runnable
         Mixer mixer = AudioSystem.getMixer(null);
 
         sdl = (SourceDataLine) mixer.getLine(new Line.Info(SourceDataLine.class));
-        sdl.open(new AudioFormat(rate, 16, 2, true, false), bufferSize * 2 * 2 * 2 * 2 * 2);
+        sdl.open(new AudioFormat(2*rate, 16, 1, true, false), bufferSize * 2 * 2 * 2 * 2 * 2);
         soundBuffer.order(ByteOrder.LITTLE_ENDIAN);
         sdl.start();
 
@@ -101,7 +102,12 @@ public class SonarSoundEngine implements Runnable
 
     public void tick()
     {
-        soundBuffer.clear();
+		/* Fixes "Exception in thread "Thread-1" java.lang.NoSuchMethodError: java.nio.ByteBuffer.clear()Ljava/nio/ByteBuffer;"
+         * When compiled with a JDK greater than 1.8 with a JVM target
+         * of 1.8 and run with a JVM of 1.8
+         */
+        //soundBuffer.clear();
+        ((Buffer)soundBuffer).clear();
 
         //        targetAmplitude = (targetAmplitude - 1) * 0.9f + 1;
         //        targetAmplitude = (targetAmplitude - 1) * 0.9f + 1;
@@ -111,8 +117,13 @@ public class SonarSoundEngine implements Runnable
 			float maxAmplitude = listenerMixer.read(leftBuf, rightBuf, rate);
             //            if (maxAmplitude > targetAmplitude) targetAmplitude = maxAmplitude;
         }
-
-        soundBuffer.clear();
+        
+		/* Fixes "Exception in thread "Thread-1" java.lang.NoSuchMethodError: java.nio.ByteBuffer.clear()Ljava/nio/ByteBuffer;"
+         * When compiled with a JDK greater than 1.8 with a JVM target
+         * of 1.8 and run with a JVM of 1.8
+         */
+        //soundBuffer.clear();
+        ((Buffer)soundBuffer).clear();
         float gain = 32000;
         for (int i = 0; i < bufferSize; i++)
         {
